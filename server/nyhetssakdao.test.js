@@ -13,12 +13,11 @@ var pool = mysql.createPool({
   multipleStatements: true
 });
 
-
 let nyhetssakDao = new NyhetssakDao(pool);
 
 beforeAll(done => {
-  runsqlfile("src/create_tables.sql", pool, () => {
-    runsqlfile("src/create_testdata.sql", pool, done);
+  runsqlfile("server/create_tables.sql", pool, () => {
+    runsqlfile("server/create_testdata.sql", pool, done);
   });
 });
 
