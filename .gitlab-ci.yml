@@ -1,15 +1,39 @@
-variables:
-  MYSQL_DATABASE: School
-  MYSQL_USER: root
-  MYSQL_ROOT_PASSWORD: 
-  MYSQL_ALLOW_EMPTY_PASSWORD: 1
+image: node:8
 
-test:
-  image: node:latest
-  services:
-    - mysql:5 # The JS mysql-library does not yet support the newest mysql protocol
+# Set up MySQL test-database
+services:
+  - mysql:5.5
+
+# Configure test-database
+variables:
+  MYSQL_DATABASE: supertestdb
+  MYSQL_ROOT_PASSWORD: secret
+
+# Install node libraries
+before_script:
+  - npm install
+
+# Run JEST tests
+run_tests:
+  stage: test
   script:
-    - npm install -g flow-bin
-    - cd server && npm install && npm test && flow check src
-    - cd ../client && npm install && npm test && flow check src
+    - npm test
+  artifacts:
+    paths:
+      - server/coverage
+
+# Publish coverage report on gitlab-pages
+pages:
+  stage: deploy
+  dependencies:
+    - run_tests
+  script:
+    - mkdir .public
+    - cp -r coverage/* .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
 

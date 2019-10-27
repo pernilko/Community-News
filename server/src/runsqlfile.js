@@ -1,5 +1,5 @@
-var mysql = require("mysql");
-var fs = require("fs");
+let mysql = require("mysql");
+let fs = require("fs");
 
 module.exports = function run(filename, pool, done) {
   console.log("runsqlfile: reading file " + filename);
