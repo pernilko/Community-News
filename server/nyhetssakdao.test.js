@@ -49,3 +49,15 @@ test("get category articles from db", done => {
 
   nyhetssakDao.getKategori("nyheter", callback);
 });
+
+test("get one articles from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data.length=" + data.length
+    );
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    done();
+  }
+
+  nyhetssakDao.getKategori("nyheter", 1, callback);
+});
