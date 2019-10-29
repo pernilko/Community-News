@@ -28,6 +28,13 @@ let pool = mysql.createPool({
 let nyhetssakDao = new NyhetssakDao(pool);
 let kommentarDao = new KommentarDao(pool);
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+
 app.use("/api", (req, res, next) => {
 	var token = req.headers["x-access-token"];
 	jwt.verify(token, publicKey, (err, decoded) => {
@@ -128,7 +135,7 @@ app.post("/token", (req, res) => {
 });
 
 
-app.get("/api/nyhetssaker", (req, res) => {
+app.get("/nyhetssaker", (req, res) => {
 	console.log("/api/nyhetssaker: Fikk GET-request fra klienten");
     nyhetssakDao.getAll((status, data) => {
         res.status(status);

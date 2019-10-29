@@ -16,7 +16,7 @@ CREATE TABLE `NYHETSSAK` (
  `tidspunkt` datetime NOT NULL,
  `bilde` longblob,
  `kategori` enum('kultur','sport','nyheter') DEFAULT NULL,
- `viktighet` int(11) NOT NULL,
+ `viktighet` BOOLEAN NOT NULL,
  `rating` int(11),
  `brukerId` int(11) NOT NULL,
  PRIMARY KEY (`saksId`),

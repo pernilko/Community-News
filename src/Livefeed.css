@@ -1,0 +1,49 @@
+.wrapper {
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+    white-space: nowrap;
+    overflow-y: hidden;
+}
+
+.ticker {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    background-color: black;
+    overflow: hidden;
+    overflow-y: hidden;
+    -webkit-animation-name: move;
+    -webkit-animation-duration: 7s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: right;
+    -webkit-animation-timing-function: linear;
+}
+
+.ticker:hover {
+    -webkit-animation-play-state: paused;
+}
+
+.title {
+    font-size: 15px;
+    color: white;
+    padding: 25px;
+    margin-top: 2px;
+}
+
+.date {
+    color: white;
+    font-size: 15px;
+    padding: 25px;
+    margin-top: 0px;
+    opacity: 0.5;
+}
+
+@keyframes move {
+    0% {
+        margin-left: -100%;
+    }
+    100% {
+        margin-left: 100%;
+    }
+}
