@@ -31,6 +31,7 @@ let kommentarDao = new KommentarDao(pool);
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
     next();
 });
 
@@ -159,7 +160,7 @@ app.get("/api/nyhetssaker/:kategori/:saksId", (req, res) => {
     });
 });
 
-app.post("/api/nyhetssaker", (req, res) => {
+app.post("/nyhetssaker", (req, res) => {
     console.log("/api/nyhetssaker: Fikk POST-request fra klient");
     nyhetssakDao.createOne(req.body, (status, data) => {
         res.status(status);
@@ -167,8 +168,8 @@ app.post("/api/nyhetssaker", (req, res) => {
     });
 });
 
-app.delete("/api/nyhetssaker/:saksId", (req, res) => {
-	console.log("/api/nyhetssaker/:saksId: Fikk DELETE-request fra klienten");
+app.delete("/nyhetssaker/:saksId", (req, res) => {
+	console.log("/api/nyhetssaker/: Fikk DELETE-request fra klienten");
     pool.getConnection((err, connection) => {
         console.log("Connected to database");
         if (err) {
@@ -179,21 +180,29 @@ app.delete("/api/nyhetssaker/:saksId", (req, res) => {
 				"DELETE FROM KOMMENTAR WHERE KOMMENTAR.saksId=?",
 				[req.params.saksId],
 				(err, rows) => {
-					connection.release();
+					//connection.release();
 					if (err) {
 						console.log(err);
 						res.json({ error: "error querying" });
 					} else {
-						console.log(rows);
-						res.json(rows);
+						connection.query(
+							"DELETE FROM NYHETSSAK WHERE saksId=?",
+							[req.params.saksId],
+							(err, rows) => {
+								if (err) {
+									console.log("feil ved sletting av artikkel");
+								}
+								else {
+									console.log("sletting av artikkel fullført");
+									res.send("sletting av artikkel fullført");
+								}
+								connection.release();
+							}
+						)
 					}
 				}
 			);
         }
-    });
-    nyhetssakDao.deleteOne(req.params.saksId, req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
     });
 });
 

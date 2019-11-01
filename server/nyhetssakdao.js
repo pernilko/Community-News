@@ -33,10 +33,10 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    deleteOne(id, json, callback) {
+    deleteOne(id, callback) {
         super.query(
-            "DELETE FROM NYHETSSAK WHERE NYHETSSAK.saksId=? AND NYHETSSAK.brukerId=?",
-            [id, json.brukerId],
+            "DELETE FROM NYHETSSAK WHERE NYHETSSAK.saksId=?",
+            [id],
             callback
         );
     }

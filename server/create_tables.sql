@@ -14,7 +14,7 @@ CREATE TABLE `NYHETSSAK` (
  `overskrift` varchar(255) NOT NULL,
  `innhold` varchar(255) NOT NULL,
  `tidspunkt` datetime NOT NULL,
- `bilde` longblob,
+ `bilde` varchar(255) NOT NULL,
  `kategori` enum('kultur','sport','nyheter') DEFAULT NULL,
  `viktighet` BOOLEAN NOT NULL,
  `rating` int(11),
