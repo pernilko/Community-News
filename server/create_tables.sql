@@ -15,7 +15,7 @@ CREATE TABLE `NYHETSSAK` (
  `innhold` varchar(255) NOT NULL,
  `tidspunkt` datetime NOT NULL,
  `bilde` varchar(255) NOT NULL,
- `kategori` enum('kultur','sport','nyheter') DEFAULT NULL,
+ `kategori` enum('Kultur','Sport','Nyheter', 'Annet') DEFAULT NULL,
  `viktighet` BOOLEAN NOT NULL,
  `rating` int(11),
  `brukerId` int(11) NOT NULL,

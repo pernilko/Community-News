@@ -144,7 +144,7 @@ app.get("/nyhetssaker", (req, res) => {
     });
 });
 
-app.get("/api/nyhetssaker/:kategori", (req, res) => {
+app.get("/nyhetssaker/:kategori", (req, res) => {
 	console.log("/api/nyhetssaker/:kategori: Fikk GET-request fra klient");
     nyhetssakDao.getKategori(req.params.kategori, (status, data) => {
         res.status(status);
@@ -152,7 +152,7 @@ app.get("/api/nyhetssaker/:kategori", (req, res) => {
     });
 });
 
-app.get("/api/nyhetssaker/:kategori/:saksId", (req, res) => {
+app.get("/nyhetssaker/:kategori/:saksId", (req, res) => {
     console.log("/api/nyhetssaker/:kategori/:id: Fikk GET-request fra klient");
     nyhetssakDao.getOneId(req.params.kategori, req.params.saksId, (status, data) => {
         res.status(status);
@@ -206,7 +206,7 @@ app.delete("/nyhetssaker/:saksId", (req, res) => {
     });
 });
 
-app.put("/api/nyhetssaker/:saksId", (req, res) => {
+app.put("/nyhetssaker/:saksId", (req, res) => {
     console.log("api/nyhetssaker/:saksId: Fikk PUT-request fra klienten");
     nyhetssakDao.upvote(req.params.saksId, (status, data) => {
         res.status(status);
@@ -214,7 +214,7 @@ app.put("/api/nyhetssaker/:saksId", (req, res) => {
     });
 });
 
-app.get("/api/livefeed", (req, res) => {
+app.get("/livefeed", (req, res) => {
     console.log("api/livefeed: Fikk GET-request fra klienten");
     nyhetssakDao.getLivefeed((status, data) => {
         res.status(status);
@@ -222,7 +222,7 @@ app.get("/api/livefeed", (req, res) => {
     });
 });
 
-app.get("/api/nyhetssaker/:kategori/:saksId/kommentarer", (req, res) => {
+app.get("/nyhetssaker/:kategori/:saksId/kommentarer", (req, res) => {
 	console.log("/api/nyhetssaker/:kategori/:saksId/kommentarer: Fikk GET-request fra klient");
     kommentarDao.getAll(req.params.kategori, req.params.saksId, (status, data) => {
         res.status(status);
@@ -230,12 +230,20 @@ app.get("/api/nyhetssaker/:kategori/:saksId/kommentarer", (req, res) => {
     });
 });
 
-app.post("/api/nyhetssaker/:saksId", (req, res) => {
+app.post("/nyhetssaker/:saksId", (req, res) => {
     console.log("/api/nyhetssaker/:saksId: Fikk POST-request fra klient");
     kommentarDao.createOne(req.params.saksId, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
+});
+
+app.put("/nyhetssaker/rediger/:saksId", (req, res) => {
+	console.log("/api/nyhetssaker/saksId: Fikk PUT-request fra klient");
+	nyhetssakDao.updateSak(req.params.saksId, req.body, (status, data) => {
+		res.status(status);
+		res.json(data);
+	})
 });
 
 let server = app.listen(8080);

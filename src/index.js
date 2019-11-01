@@ -14,88 +14,26 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col';
 import CardGroup from 'react-bootstrap/CardGroup';
-
+import {Nyhetssak, nyhetssakService, Kommentar, kommentarService} from './services';
+import {Alert} from './widgets';
 import './Livefeed.css';
-
 import axios from 'axios';
 
 const history = createHashHistory();
 
-class Nyhetssak {
-
-  id: number;
-  overskrift: string;
-  innhold: string;
-  bilde: string;
-  kategori: string;
-  viktighet: Boolean;
-  tid: number;
-  kommentarer: Kommentar[];
-
-  constructor(id: number, overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: Boolean, tid: number) {
-    this.id = id;
-    this.overskrift = overskrift;
-    this.innhold = innhold
-    this.bilde = bilde;
-    this.kategori = kategori;
-    this.viktighet = viktighet;
-    this.tid = tid;
-    this.kommentarer = [];
-  }
-}
-
-class Kommentar {
-
-  nick: string;
-  kommentar: string;
-
-  constructor(id: number, nick: string, kommentar: string) {
-    this.id = id;
-    this.nick = nick;
-    this.kommentar = kommentar;
-  }
-}
-
-let saker = [
-  new Nyhetssak(1, 'Nyhetssak', 'Hunden er her', 'bilder/sak1.jpg', 'Nyheter', true, 5),
-  new Nyhetssak(2, 'Sportssak', 'Flyet har landet', 'bilder/sak2.jpg', 'Sport', false, 10),
-  new Nyhetssak(3, 'Kultursak', 'Sofa (20) savnet', 'bilder/sak3.jpg', 'Sport', false, 15),
-];
-
-axios.get('http://localhost:8080/nyhetssaker').then(response => {
-  response.data.map(r => saker.push(new Nyhetssak(r["saksId"], r["overskrift"], r["innhold"], r["bilde"], r["kategori"], Boolean(r["viktighet"]), 10)));
-});
-
-let kommentarer = [
-  new Kommentar(1, "Dilawar", "'Du er kul"),
-  new Kommentar(2, "Bøg", "Jeg er kul"),
-  new Kommentar(3, "Nikk", "hei"),
-  new Kommentar(4, "Jens", "yee"),
-];
-
-saker.forEach((e, index) => {
-  var rand = Math.floor(Math.random() * kommentarer.length);
-  var rand2 = Math.floor(Math.random() * kommentarer.length);
-  if(rand == rand2) {
-    if(rand >= 1) {
-      rand2 -= 1
-    } else {rand2 += 1}
-  }
-  e.kommentarer.push(kommentarer[rand]);
-  e.kommentarer.push(kommentarer[rand2]);
-})
-
 let kategorier = ["Nyheter", "Sport", "Kultur", "Annet"];
 
 class LiveFeed extends Component {
+  saker: Nyhetssak[] = [];
+
   render() {
-    return (
+    if (this.saker) {
+      return (
       <div class="wrapper">
         <div class="ticker">
-          {saker.map(sak => (
+          {this.saker.map(sak => (
             <div>
               <LiveFeedElement title={sak.overskrift} date={sak.tid}/>
             </div> 
@@ -103,6 +41,19 @@ class LiveFeed extends Component {
         </div>
       </div>
     )
+    }
+    else {
+      return (
+      <div>Laster LiveFeed...</div>
+      )
+    }
+  }
+
+  mounted() {
+    nyhetssakService
+      .livefeed()
+      .then(saker => (this.saker = saker))
+      .catch((error: Error) => Alert.danger(error.message));
   }
 }
 
@@ -151,12 +102,14 @@ class Navigation extends Component {
 }
 
 class Forside extends Component {
+  saker: Nyhetssak[] = [];
   render() {
-    let nysaker = saker.filter(sak => sak.viktighet == true);
-    return <>
+    //let nysaker = saker.filter(sak => sak.viktighet == true);
+    if (this.saker) {
+      return <>
    <CardGroup> 
-      {nysaker.map(sak => (
-        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.id}>
+      {this.saker.map(sak => (
+        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
   <Card style={{ width: '18rem' }}>
   <Card.Img variant="top" src={sak.bilde} />
   <Card.Body>
@@ -170,16 +123,30 @@ class Forside extends Component {
       ))}
       </CardGroup>
     </>
+    }
+    else {
+      return (
+        <div>Laster forside...</div>
+      )
+    }
+  }
+
+  mounted() {
+    nyhetssakService
+      .getSaker()
+      .then(saker => (this.saker = saker))
+      .catch((error: Error) => Alert.danger(error.message));
   }
 }
 
 class Sakliste extends Component<{ match: { params: { kategori: string } } }> {
+  saker: Nyhetssak[] = [];
   render() {
-    let nysaker = saker.filter(sak => sak.viktighet == false && sak.kategori==this.props.match.params.kategori);
-    return <>
+    if (this.saker) {
+      return <>
    <CardGroup> 
-      {nysaker.map(sak => (
-        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.id}>
+      {this.saker.map(sak => (
+        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
   <Card style={{ width: '18rem' }}>
   <Card.Img variant="top" src={sak.bilde} />
   <Card.Body>
@@ -193,26 +160,41 @@ class Sakliste extends Component<{ match: { params: { kategori: string } } }> {
       ))}
       </CardGroup>
     </>
+    }
+    else {
+      return (
+        <div> Laster kategori {this.props.match.params.kategori}</div>
+      )
+    }
+  }
+
+  mounted() {
+    nyhetssakService
+      .getSakKat(this.props.match.params.kategori)
+      .then(saker => (this.saker = saker))
+      .catch((error: Error) => Alert.danger(error.message));
   }
 }
 
 class Sak extends Component<{ match: { params: { id: number, kategori: string } } }> {
   nick = '';
   kommentar = '';
+  sak = null;
+  kommentarer: Kommentar[] = [];
   render() {
-  let sak = saker.find(sak => sak.id == this.props.match.params.id);
-  let sakKommentar = sak.kommentarer;
-    console.log(sakKommentar);
-    return <>
+    if (this.sak) {
+      console.log(this.sak);
+      return <>
     <Button variant="danger" onClick={this.delete}>Slett nyhetsartikkel</Button>
-    <Nav.Link href={"#/rediger/"+sak.kategori+"/"+sak.id}>
+    <Nav.Link href={"#/rediger/"+this.props.match.params.kategori+"/"+this.props.match.params.id}>
     <Button variant="success" onClick={this.edit}>Rediger nyhetsartikkel</Button>
     </Nav.Link>
+    <Button variant="primary" onClick={this.upvote}>Upvote</Button>
     <Card className="bg-light text-black" style={{ width: '36rem' }}>
-        <Card.Img src={sak.bilde} alt="Card image"/>
-           <Card.Title>{sak.overskrift}</Card.Title>
-           <Card.Text>{sak.innhold}</Card.Text>
-    <Card.Text>Updated {sak.tid} minutes ago.</Card.Text>
+        <Card.Img src={this.sak.bilde} alt="Card image"/>
+           <Card.Title>{this.sak.overskrift}</Card.Title>
+           <Card.Text>{this.sak.innhold}</Card.Text>
+    <Card.Text>Updated {this.sak.tidspunkt} minutes ago.</Card.Text>
 </Card>
 
     <Form>
@@ -237,61 +219,88 @@ class Sak extends Component<{ match: { params: { id: number, kategori: string } 
 </Form>
 <Button variant="primary" onClick={this.add}>Kommenter</Button>
 
-  {sakKommentar.map(kommentar => (
+  {this.kommentarer.map(kommentar => (
     <Card className="bg-dark text-white" style={{ width: '18rem' }}>
            <Card.Title>{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
 </Card>
   ))}
     </>
+    }
+    else {
+      return (
+        <div>Laster sak...</div>
+      )
+    }
+  }
+
+  mounted() {
+    nyhetssakService
+      .getSakKatId(this.props.match.params.kategori, this.props.match.params.id)
+      .then(sak => (this.sak = sak))
+      .catch((error: Error) => Alert.danger(error.message));
+    
+    kommentarService
+      .getKommentarer(this.props.match.params.kategori, this.props.match.params.id)
+      .then(kommentarer => (this.kommentarer = kommentarer))
+      .catch((error: Error) => Alert.danger(error.message));
   }
 
   add() {
-    let sak = saker.find(sak => sak.id == this.props.match.params.id);
-    sak.kommentarer.push(new Kommentar(this.nick, this.kommentar));
-    history.push("#/");
-    history.push("#/kategori/"+sak.kategori+"/"+sak.id);
+    kommentarService
+      .postKommentarer(this.props.match.params.id, this.kommentar, this.nick)
+      .then(history.push("#/"))
+      .then(history.push("#/kategori/"+this.props.match.params.kategori+"/"+this.props.match.params.id))
+      .catch((error: Error) => Alert.danger(error.message));
   }
 
   delete() {
-    let sak = saker.find(e => e.id != this.props.match.params.id);
-    axios.delete('http://localhost:8080/nyhetssaker/'+this.props.match.params.id).then(history.push('/'));
+    nyhetssakService
+      .deleteSak(this.props.match.params.id)
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error: Error) => Alert.danger(error.message));
+  }
+
+  upvote() {
+    nyhetssakService
+      .upvote(this.props.match.params.id)
+      .then()
+      .catch((error: Error) => Alert.danger(error.message));
   }
 }
 
 class EditSak extends Component<{ match: { params: { id: number, kategori: string } } }> {
-  overskrift = '';
-  innhold = '';
-  bilde = '';
-  kategori = '';
-  viktighet = false;
-  tid = 0;
+  sak = null;
 
   render() {
+    if (this.sak) {
+      console.log(this.sak);
     return <>
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
     <Form.Control 
     type="text" 
-    value={this.overskrift}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.overskrift = event.target.value)}
+    value={this.sak.overskrift}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.overskrift = event.target.value)}
     />
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Innhold</Form.Label>
     <Form.Control as="textarea" rows="9"
     type="text" 
-    value={this.innhold}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.innhold = event.target.value)}
+    value={this.sak.innhold}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.innhold = event.target.value)}
     />
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Bilde</Form.Label>
     <Form.Control
     type="text" 
-    value={this.bilde}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bilde = event.target.value)}
+    value={this.sak.bilde}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.bilde = event.target.value)}
     />
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlSelect2">
@@ -299,8 +308,8 @@ class EditSak extends Component<{ match: { params: { id: number, kategori: strin
     <br></br>
     <select
     type="text"
-    value={this.kategori}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.kategori = event.target.value)}>
+    value={this.sak.kategori}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.kategori = event.target.checked)}>
     {kategorier.map(kategori => (
       <option>{kategori}</option>
     ))}
@@ -311,55 +320,38 @@ class EditSak extends Component<{ match: { params: { id: number, kategori: strin
     <br></br>
     <input
     type="checkbox"
-    value={this.viktighet}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.viktighet = event.target.checked)}
-    cheked={this.viktighet}
-    />
-  </Form.Group>
-  <Form.Group controlId="exampleForm.ControlInput1">
-    <Form.Label>Tid</Form.Label>
-    <Form.Control 
-    type="number" 
-    value={this.tid}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tid = event.target.value)}
+    checked={this.sak.viktighet}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.viktighet = event.target.checked)}
     />
   </Form.Group>
   <Button variant="success" onClick={this.save}>Endre nyhetsartikkel</Button>
 </Form>
     </>
+    }
+    else {
+      return (
+        <div>Laster redigeringsskjema</div>
+      )
+    }
   }
 
   mounted() {
-    let sak = saker.find(sak => sak.id == this.props.match.params.id);
-    if (!sak) {
-      Alert.danger('Sak not found: ' + this.props.match.params.id);
-      return;
-    }
-
-  this.overskrift = sak.overskrift;
-  this.innhold = sak.innhold;
-  this.bilde = sak.bilde;
-  this.kategori = sak.kategori;
-  this.viktighet = sak.viktighet;
-  this.tid = sak.tid;
+    nyhetssakService
+      .getSakKatId(this.props.match.params.kategori, this.props.match.params.id)
+      .then(sak => (this.sak = sak))
+      .catch((error: Error) => Alert.danger(error.message));
   }
 
   save() {
-    let sak = saker.find(sak => sak.id == this.props.match.params.id);
-    if (!sak) {
-      Alert.danger('Sak not found: ' + this.props.match.params.id);
-      return;
-    }
-
-  sak.overskrift = this.overskrift;
-  sak.innhold = this.innhold;
-  sak.bilde = this.bilde;
-  sak.kategori = this.kategori;
-  sak.viktighet = this.viktighet;
-  sak.tid = this.tid;
-  
-  history.push("#/");
-  history.push("#/kategori" + "/" + sak.kategori + "/" + sak.id);
+    nyhetssakService
+      .updateSak(this.props.match.params.id, this.sak.overskrift, this.sak.innhold, this.sak.bilde, this.sak.kategori, this.sak.viktighet)
+      .then(() => {
+        if (this.sak) {
+          history.push("/");
+          history.push("#/kategorier/" + this.sak.kategori + "/" + this.sak.saksId);
+        }
+      })
+      .catch((error: Error) => Alert.danger(error.message));
   }
 }
 
@@ -369,7 +361,7 @@ class AddSak extends Component {
   bilde = '';
   kategori = '';
   viktighet = false;
-  tid = 0;
+  sak = null;
 
   render() {
     return <>
@@ -420,44 +412,18 @@ class AddSak extends Component {
     cheked={this.viktighet}
     />
   </Form.Group>
-  <Form.Group controlId="exampleForm.ControlInput1">
-    <Form.Label>Tid</Form.Label>
-    <Form.Control 
-    type="number" 
-    value={this.tid}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.tid = event.target.value)}
-    />
-  </Form.Group>
   <Button variant="success" onClick={this.add}>Legg til nyhetsartikkel</Button>
 </Form>
     </>
   }
 
   add() {
-    let sak = saker.find(sak => sak.overskrift == this.overskrift);
-    if (sak) {
-      return <>
-        <Alert variant="danger">
-          Denne artikkelen eksisterer fra før av!
-        </Alert>
-      </>
-    }
-    else {
-      //let nySak = new Nyhetssak(this.overskrift, this.innhold, this.bilde, this.kategori, this.viktighet, this.tid)
-      //saker.push(nySak);
-      axios.post('http://localhost:8080/nyhetssaker', {
-        overskrift: this.overskrift,
-        innhold: this.innhold,
-        bilde: this.bilde,
-        kategori: this.kategori,
-        viktighet: this.viktighet,
-        brukerId: 1 
-      }).then(response => {
-        console.log(response);
-      });
-      history.push('/');
-     // console.log(nySak);
-    }
+    nyhetssakService
+      .postSak(this.overskrift, this.innhold, this.bilde, this.kategori, this.viktighet, 1)
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error: Error) => Alert.danger(error.message));
   }
 }
 

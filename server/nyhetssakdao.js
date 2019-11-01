@@ -1,9 +1,11 @@
+// @flow
+
 const Dao = require("./dao.js");
 
 module.exports = class NyhetssakDao extends Dao {
     getAll(callback) {
         super.query(
-            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=TRUE ORDER BY rating DESC LIMIT 10",
+            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=TRUE ORDER BY rating DESC LIMIT 20",
             [],
             callback
         );
@@ -19,7 +21,7 @@ module.exports = class NyhetssakDao extends Dao {
 
     getKategori(kategori, callback) {
         super.query(
-            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE kategori=? ORDER BY rating DESC",
+            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=FALSE AND kategori=? ORDER BY rating DESC",
             [kategori],
             callback
         );
@@ -53,6 +55,14 @@ module.exports = class NyhetssakDao extends Dao {
         super.query(
             "SELECT overskrift FROM NYHETSSAK WHERE NYHETSSAK.viktighet=FALSE AND TIMESTAMPDIFF(MINUTE, NOW(), NYHETSSAK.tidspunkt) <= 60 ORDER BY NYHETSSAK.tidspunkt DESC LIMIT 5",
             [],
+            callback
+        );
+    }
+
+    updateSak(id, json, callback) {
+        super.query(
+            "UPDATE NYHETSSAK SET NYHETSSAK.overskrift=?, NYHETSSAK.innhold=?, NYHETSSAK.bilde=?, NYHETSSAK.tidspunkt=NOW(), NYHETSSAK.kategori=?, NYHETSSAK.viktighet=? WHERE NYHETSSAK.saksId = ?",
+            [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet, id],
             callback
         );
     }
