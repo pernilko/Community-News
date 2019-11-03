@@ -76,7 +76,7 @@ class KommentarService {
     }
 
     postKommentarer(id: number, kommentar: string, nick: string) {
-        return axios.post<void>('http://localhost:8080/nyhetssaker/' + id, {
+        return axios.post<Kommentar, void>('http://localhost:8080/nyhetssaker/' + id, {
             "kommentar": kommentar,
             "nick": nick
         }).then(response => response.data);
@@ -84,3 +84,33 @@ class KommentarService {
 }
 
 export let kommentarService = new KommentarService();
+
+export class Bruker {
+    brukerId: number;
+    brukernavn: string;
+    passord: string;
+}
+
+class BrukerService {
+    login(brukernavn: string, passord: string) {
+        return axios.post<Bruker, void>('http://localhost:8080/login', {
+            "brukernavn": brukernavn,
+            "passord": passord
+        }).then(response => response.data);
+    }
+
+    registrer(brukernavn: string, passord: string) {
+        return axios.post<Bruker, void>('http://localhost:8080/login', {
+            "brukernavn": brukernavn,
+            "passord": passord
+        }).then(response => response.json())
+    }
+
+    getToken(token: string) {
+        return axios.post<Bruker, void>('http://localhost:8080/login', {
+            headers: {
+                "x-access-token": token
+            }
+        }).then(response => response.json())
+    }
+}
