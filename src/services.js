@@ -88,10 +88,13 @@ export let kommentarService = new KommentarService();
 export class Bruker {
     brukerId: number;
     brukernavn: string;
-    passord: string;
 }
 
 class BrukerService {
+    getOne(brukernavn: string) {
+        return axios.get<Bruker>('http://localhost:8080/brukere/' + brukernavn).then(response => response.json());
+    }
+
     login(brukernavn: string, passord: string) {
         return axios.post<Bruker, void>('http://localhost:8080/login', {
             "brukernavn": brukernavn,
@@ -100,17 +103,19 @@ class BrukerService {
     }
 
     registrer(brukernavn: string, passord: string) {
-        return axios.post<Bruker, void>('http://localhost:8080/login', {
+        return axios.post<Bruker, void>('http://localhost:8080/registrer', {
             "brukernavn": brukernavn,
             "passord": passord
         }).then(response => response.json())
     }
 
     getToken(token: string) {
-        return axios.post<Bruker, void>('http://localhost:8080/login', {
+        return axios.post<Bruker, void>('http://localhost:8080/token', {
             headers: {
                 "x-access-token": token
             }
         }).then(response => response.json())
     }
 }
+
+export let brukerService = new BrukerService();

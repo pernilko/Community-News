@@ -16,7 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import CardGroup from 'react-bootstrap/CardGroup';
-import {Nyhetssak, nyhetssakService, Kommentar, kommentarService} from './services';
+import {Nyhetssak, nyhetssakService, Kommentar, kommentarService, Bruker, brukerService} from './services';
 import {Alert} from './widgets';
 import './Livefeed.css';
 import axios from 'axios';
@@ -69,8 +69,12 @@ class LiveFeedElement extends Component {
 }
 
 class Navigation extends Component {
+  inn_bruker = null;
+
   render() {
-  return <>
+    console.log(this.inn_bruker);
+    if (this.inn_bruker) {
+      return <>
     <Navbar bg="dark" expand="lg" variant="dark">
   <Navbar.Brand href="#">
       <img
@@ -93,12 +97,49 @@ class Navigation extends Component {
   </Navbar.Collapse>
   <Navbar.Collapse className="justify-content-end">
   <Navbar.Text>
-      Signed in as: <a href="#">Dilawar Mahmood</a>
+      Signed in as: <a href="#">{this.inn_bruker.brukernavn}</a>
     </Navbar.Text>
   </Navbar.Collapse>
 </Navbar>
 </>
+    }
+    else {
+      return <>
+    <Navbar bg="dark" expand="lg" variant="dark">
+  <Navbar.Brand href="#">
+      <img
+        src="bilder/logo.jpg"
+        width="30"
+        height="30"
+        className="d-inline-block align-top"
+        alt="Community News"
+      />
+  </Navbar.Brand>
+  <Navbar.Brand href="#/">Communtiy News</Navbar.Brand>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+    {kategorier.map(kategori => (
+      <Nav.Link href={"#/kategori/"+kategori}>{kategori}</Nav.Link>
+    ))}
+    </Nav>
+  </Navbar.Collapse>
+  <Navbar.Collapse className="justify-content-end">
+  <Navbar.Text>
+      <Button variant="primary" href="#/login">Logg inn</Button>
+      <Button variant="success" href="#/registrer">Registrer</Button>
+    </Navbar.Text>
+  </Navbar.Collapse>
+</Navbar>
+</>
+    }
   }
+
+  /*
+  mounted() {
+    this.inn_bruker = Login().inn_bruker;
+  }
+  */
 }
 
 class Forside extends Component {
@@ -131,6 +172,7 @@ class Forside extends Component {
     }
   }
 
+  
   mounted() {
     nyhetssakService
       .getSaker()
@@ -427,6 +469,96 @@ class AddSak extends Component {
   }
 }
 
+class Login extends Component {
+  brukernavn = '';
+  passord = '';
+  inn_bruker = null;
+  logged_in = false;
+
+  render() {
+    return <>
+    <Form>
+  <Form.Group controlId="exampleForm.ControlInput1">
+    <Form.Label>Brukernavn</Form.Label>
+    <Form.Control 
+    type="text" 
+    value={this.brukernavn}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.brukernavn = event.target.value)}
+    />
+  </Form.Group>
+  <Form.Group controlId="exampleForm.ControlInput1">
+    <Form.Label>Passord</Form.Label>
+    <Form.Control
+    type="password" 
+    value={this.passord}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.passord = event.target.value)}
+    />
+  </Form.Group>
+  <Button variant="primary" onClick={this.logg_in}>Logg inn</Button>
+</Form>
+    </>
+  }
+
+  logg_in() {
+    brukerService
+      .login(this.brukernavn, this.passord)
+      .then(json => {
+        if (json.jwt.length > 3) {
+          this.logged_in = true;
+        }
+    	  localStorage.token = json.jwt;
+    	  console.log(JSON.stringify(json));
+     })
+     .then(history.push("/"))
+     .catch((error: Error) => Alert.danger(error.message));
+  }
+
+  mounted() {
+    if (this.logged_in) {
+      brukerService
+        .getOne(this.brukernavn)
+        .then(json => this.inn_bruker = new Bruker(json.brukerId, json.brukernavn))
+        .catch((error: Error) => Alert.danger(error.message));
+    }
+  } 
+}
+
+class Registrer extends Component {
+  brukernavn = '';
+  passord = '';
+
+  render() {
+    return <>
+    <Form>
+  <Form.Group controlId="exampleForm.ControlInput1">
+    <Form.Label>Brukernavn</Form.Label>
+    <Form.Control 
+    type="text" 
+    value={this.brukernavn}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.brukernavn = event.target.value)}
+    />
+  </Form.Group>
+  <Form.Group controlId="exampleForm.ControlInput1">
+    <Form.Label>Passord</Form.Label>
+    <Form.Control
+    type="password" 
+    value={this.passord}
+    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.passord = event.target.value)}
+    />
+  </Form.Group>
+  <Button variant="success" onClick={this.register}>Registrer bruker</Button>
+</Form>
+    </>
+  }
+
+  register() {
+    brukerService
+      .registrer(this.brukernavn, this.passord)
+      .then(history.push("/"))
+      .catch((error: Error) => Alert.danger(error.message));
+  }
+}
+
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
@@ -439,6 +571,8 @@ if (root)
         <Route exact path="/kategori/:kategori/:id" component={Sak}/>
         <Route path="/addNews" component={AddSak}/>
         <Route exact path="/rediger/:kategori/:id" component={EditSak}/>
+        <Route path="/login" component={Login}/>
+        <Route path="/registrer" component={Registrer}/>
       </div>
     </HashRouter>,
     root

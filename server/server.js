@@ -8,6 +8,7 @@ let fs = require("fs");
 let app = express();
 const NyhetssakDao = require("./nyhetssakdao.js");
 const KommentarDao = require("./kommentardao.js");
+const BrukerDao = require("./brukerdao.js");
 
 app.use(bodyParser.json()); // for å tolke JSON i body
 
@@ -27,6 +28,7 @@ let pool = mysql.createPool({
 
 let nyhetssakDao = new NyhetssakDao(pool);
 let kommentarDao = new KommentarDao(pool);
+let brukerDao = new BrukerDao(pool);
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
@@ -241,6 +243,14 @@ app.post("/nyhetssaker/:saksId", (req, res) => {
 app.put("/nyhetssaker/rediger/:saksId", (req, res) => {
 	console.log("/api/nyhetssaker/saksId: Fikk PUT-request fra klient");
 	nyhetssakDao.updateSak(req.params.saksId, req.body, (status, data) => {
+		res.status(status);
+		res.json(data);
+	})
+});
+
+app.get("/brukere/:brukernavn", (req, res) => {
+	console.log("/bruker/:brukerId: Fikk GET-request fra klient");
+	brukerDao.getOne(req.params.brukernavn, (status, data) => {
 		res.status(status);
 		res.json(data);
 	})
