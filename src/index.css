@@ -47,3 +47,8 @@
         margin-left: 100%;
     }
 }
+
+img.resize {
+    max-width:50%;
+    max-height:50%;
+  }

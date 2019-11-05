@@ -18,7 +18,7 @@ import Col from 'react-bootstrap/Col';
 import CardGroup from 'react-bootstrap/CardGroup';
 import {Nyhetssak, nyhetssakService, Kommentar, kommentarService, Bruker, brukerService} from './services';
 import {Alert} from './widgets';
-import './Livefeed.css';
+import './index.css';
 import axios from 'axios';
 
 const history = createHashHistory();
@@ -71,6 +71,7 @@ class LiveFeedElement extends Component {
 class Navigation extends Component {
   inn_bruker = null;
 
+
   render() {
     console.log(this.inn_bruker);
     if (this.inn_bruker) {
@@ -90,8 +91,9 @@ class Navigation extends Component {
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
     {kategorier.map(kategori => (
-      <Nav.Link href={"#/kategori/"+kategori}>{kategori}</Nav.Link>
+      <Nav.Link href={"/#kategori/"+kategori}>{kategori}</Nav.Link>
     ))}
+    <Nav.Link href={"/#kategori/MineSaker/" + this.inn_bruker.brukerId}>Mine saker</Nav.Link>
     <Button variant="outline-success" href="#/addNews">Legg til nyhetsartikkel</Button>
     </Nav>
   </Navbar.Collapse>
@@ -99,6 +101,7 @@ class Navigation extends Component {
   <Navbar.Text>
       Signed in as: <a href="#">{this.inn_bruker.brukernavn}</a>
     </Navbar.Text>
+  <Button variant="danger" onClick={this.logout}>Logg ut</Button>
   </Navbar.Collapse>
 </Navbar>
 </>
@@ -120,14 +123,14 @@ class Navigation extends Component {
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
     {kategorier.map(kategori => (
-      <Nav.Link href={"#/kategori/"+kategori}>{kategori}</Nav.Link>
+      <Nav.Link href={"/#kategori/"+kategori}>{kategori}</Nav.Link>
     ))}
     </Nav>
   </Navbar.Collapse>
   <Navbar.Collapse className="justify-content-end">
   <Navbar.Text>
-      <Button variant="primary" href="#/login">Logg inn</Button>
-      <Button variant="success" href="#/registrer">Registrer</Button>
+      <Button variant="primary" href="/#login">Logg inn</Button>
+      <Button variant="success" href="/#registrer">Registrer</Button>
     </Navbar.Text>
   </Navbar.Collapse>
 </Navbar>
@@ -135,11 +138,13 @@ class Navigation extends Component {
     }
   }
 
-  /*
-  mounted() {
-    this.inn_bruker = Login().inn_bruker;
+  mounted(ny_bruker) {
+    this.inn_bruker = ny_bruker;
   }
-  */
+
+  logout() {
+    this.inn_bruker = null;
+  }
 }
 
 class Forside extends Component {
@@ -148,21 +153,18 @@ class Forside extends Component {
     //let nysaker = saker.filter(sak => sak.viktighet == true);
     if (this.saker) {
       return <>
-   <CardGroup> 
       {this.saker.map(sak => (
-        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
-  <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src={sak.bilde} />
-  <Card.Body>
-    <Card.Title>{sak.overskrift}</Card.Title>
-    <Card.Text>
-      {sak.innhold}
-    </Card.Text>
-  </Card.Body>
-</Card>
-</a>
+        <div className="mx-auto w-75">
+          <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
+            <Card>
+            <img src={sak.bilde} width="945" height="400"/>
+            <Card.Body>
+              <Card.Title>{sak.overskrift}</Card.Title>
+            </Card.Body>
+          </Card>
+          </a>
+        </div>
       ))}
-      </CardGroup>
     </>
     }
     else {
@@ -178,6 +180,8 @@ class Forside extends Component {
       .getSaker()
       .then(saker => (this.saker = saker))
       .catch((error: Error) => Alert.danger(error.message));
+    let livefeed = LiveFeed.instance();
+    livefeed.mounted();
   }
 }
 
@@ -186,21 +190,18 @@ class Sakliste extends Component<{ match: { params: { kategori: string } } }> {
   render() {
     if (this.saker) {
       return <>
-   <CardGroup> 
       {this.saker.map(sak => (
+        <div className="mx-auto w-75">
         <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
-  <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src={sak.bilde} />
+  <Card>
+  <img src={sak.bilde} width="945" height="400"/>
   <Card.Body>
     <Card.Title>{sak.overskrift}</Card.Title>
-    <Card.Text>
-      {sak.innhold}
-    </Card.Text>
   </Card.Body>
 </Card>
 </a>
+</div>
       ))}
-      </CardGroup>
     </>
     }
     else {
@@ -218,19 +219,123 @@ class Sakliste extends Component<{ match: { params: { kategori: string } } }> {
   }
 }
 
+class MineSaker extends Component<{ match: { params: { id: number } } }> {
+  saker: Nyhetssak[] = [];
+
+  render() {
+    console.log(this.saker);
+    if (this.saker) {
+      return <>
+      {this.saker.map(sak => (
+        <div className="mx-auto w-75">
+        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
+  <Card>
+  <img src={sak.bilde} width="945" height="400"/>
+  <Card.Body>
+    <Card.Title>{sak.overskrift}</Card.Title>
+  </Card.Body>
+</Card>
+</a>
+</div>
+      ))}
+      </>
+    }
+    else {
+      return (
+        <div> Laster dine saker... </div>
+      )
+    }
+  }
+
+  mounted() {
+    nyhetssakService
+      .getSakBruker(this.props.match.params.id)
+      .then(saker => (this.saker = saker))
+      .catch((error: Error) => Alert.danger(error.message));
+  }
+}
+
 class Sak extends Component<{ match: { params: { id: number, kategori: string } } }> {
   nick = '';
   kommentar = '';
   sak = null;
   kommentarer: Kommentar[] = [];
+  inn_bruker = null;
+  brukerId = 0;
   render() {
     if (this.sak) {
-      console.log(this.sak);
-      return <>
+      if (this.inn_bruker) {
+        if (this.inn_bruker.brukerId == this.brukerId) {
+          return <>
     <Button variant="danger" onClick={this.delete}>Slett nyhetsartikkel</Button>
     <Nav.Link href={"#/rediger/"+this.props.match.params.kategori+"/"+this.props.match.params.id}>
     <Button variant="success" onClick={this.edit}>Rediger nyhetsartikkel</Button>
     </Nav.Link>
+    <Button variant="primary" onClick={this.upvote}>Upvote</Button>
+    <Card className="bg-light text-black" style={{ width: '36rem' }}>
+        <Card.Img src={this.sak.bilde} alt="Card image"/>
+           <Card.Title>{this.sak.overskrift}</Card.Title>
+           <Card.Text>{this.sak.innhold}</Card.Text>
+    <Card.Text>Updated {this.sak.tidspunkt} minutes ago.</Card.Text>
+</Card>
+
+    <Form>
+  <Form.Row>
+    <Col>
+      <Form.Control
+      placeholder="Kommentar"
+      type="text"
+      value = {this.kommentar}
+      onChange = {(event: SyntheticInputEvent<HTMLInputElement>) => (this.kommentar = event.target.value)} 
+      />
+    </Col>
+  </Form.Row>
+</Form>
+<Button variant="primary" onClick={this.add_b}>Kommenter</Button>
+
+  {this.kommentarer.map(kommentar => (
+    <Card className="bg-dark text-white" style={{ width: '18rem' }}>
+           <Card.Title>{kommentar.nick}</Card.Title>
+           <Card.Text>{kommentar.kommentar}</Card.Text>
+</Card>
+  ))}
+    </> 
+        }
+        else {
+          return <>
+    <Button variant="primary" onClick={this.upvote}>Upvote</Button>
+    <Card className="bg-light text-black" style={{ width: '36rem' }}>
+        <Card.Img src={this.sak.bilde} alt="Card image"/>
+           <Card.Title>{this.sak.overskrift}</Card.Title>
+           <Card.Text>{this.sak.innhold}</Card.Text>
+    <Card.Text>Updated {this.sak.tidspunkt} minutes ago.</Card.Text>
+</Card>
+
+    <Form>
+  <Form.Row>
+    <Col>
+      <Form.Control
+      placeholder="Kommentar"
+      type="text"
+      value = {this.kommentar}
+      onChange = {(event: SyntheticInputEvent<HTMLInputElement>) => (this.kommentar = event.target.value)} 
+      />
+    </Col>
+  </Form.Row>
+</Form>
+<Button variant="primary" onClick={this.add_b}>Kommenter</Button>
+
+  {this.kommentarer.map(kommentar => (
+    <Card className="bg-dark text-white" style={{ width: '18rem' }}>
+           <Card.Title>{kommentar.nick}</Card.Title>
+           <Card.Text>{kommentar.kommentar}</Card.Text>
+</Card>
+  ))}
+    </> 
+        }
+      }
+      else {
+        return <>
     <Button variant="primary" onClick={this.upvote}>Upvote</Button>
     <Card className="bg-light text-black" style={{ width: '36rem' }}>
         <Card.Img src={this.sak.bilde} alt="Card image"/>
@@ -267,7 +372,8 @@ class Sak extends Component<{ match: { params: { id: number, kategori: string } 
            <Card.Text>{kommentar.kommentar}</Card.Text>
 </Card>
   ))}
-    </>
+    </> 
+      }
     }
     else {
       return (
@@ -279,21 +385,36 @@ class Sak extends Component<{ match: { params: { id: number, kategori: string } 
   mounted() {
     nyhetssakService
       .getSakKatId(this.props.match.params.kategori, this.props.match.params.id)
-      .then(sak => (this.sak = sak))
+      .then(sak => {
+        this.sak = sak;
+        this.brukerId = this.sak.brukerId;
+      })
       .catch((error: Error) => Alert.danger(error.message));
     
     kommentarService
       .getKommentarer(this.props.match.params.kategori, this.props.match.params.id)
       .then(kommentarer => (this.kommentarer = kommentarer))
       .catch((error: Error) => Alert.danger(error.message));
+    
+    this.inn_bruker = Navigation.instance().inn_bruker;
+  }
+
+  add_b() {
+    kommentarService
+      .postKommentarer(this.props.match.params.id, this.kommentar, this.inn_bruker.brukernavn)
+      .then(this.mounted())
+      .catch((error: Error) => Alert.danger(error.message));
+    
+    Sak.instance().mounted();
   }
 
   add() {
     kommentarService
       .postKommentarer(this.props.match.params.id, this.kommentar, this.nick)
-      .then(history.push("#/"))
-      .then(history.push("#/kategori/"+this.props.match.params.kategori+"/"+this.props.match.params.id))
+      .then(this.mounted())
       .catch((error: Error) => Alert.danger(error.message));
+    
+    Sak.instance().mounted();
   }
 
   delete() {
@@ -389,8 +510,8 @@ class EditSak extends Component<{ match: { params: { id: number, kategori: strin
       .updateSak(this.props.match.params.id, this.sak.overskrift, this.sak.innhold, this.sak.bilde, this.sak.kategori, this.sak.viktighet)
       .then(() => {
         if (this.sak) {
-          history.push("/");
-          history.push("#/kategorier/" + this.sak.kategori + "/" + this.sak.saksId);
+          history.push("/kategorier/" + this.sak.kategori + "/" + this.sak.saksId);
+          Sak.instance.mounted();
         }
       })
       .catch((error: Error) => Alert.danger(error.message));
@@ -401,9 +522,10 @@ class AddSak extends Component {
   overskrift = '';
   innhold = '';
   bilde = '';
-  kategori = '';
+  kategori = kategorier[0];
   viktighet = false;
   sak = null;
+  inn_bruker = null;
 
   render() {
     return <>
@@ -461,11 +583,15 @@ class AddSak extends Component {
 
   add() {
     nyhetssakService
-      .postSak(this.overskrift, this.innhold, this.bilde, this.kategori, this.viktighet, 1)
+      .postSak(this.overskrift, this.innhold, this.bilde, this.kategori, this.viktighet, this.inn_bruker.brukerId)
       .then(() => {
         history.push("/");
       })
       .catch((error: Error) => Alert.danger(error.message));
+  }
+
+  mounted() {
+    this.inn_bruker = Navigation.instance().inn_bruker;
   }
 }
 
@@ -473,7 +599,6 @@ class Login extends Component {
   brukernavn = '';
   passord = '';
   inn_bruker = null;
-  logged_in = false;
 
   render() {
     return <>
@@ -503,23 +628,21 @@ class Login extends Component {
     brukerService
       .login(this.brukernavn, this.passord)
       .then(json => {
-        if (json.jwt.length > 3) {
-          this.logged_in = true;
-        }
     	  localStorage.token = json.jwt;
     	  console.log(JSON.stringify(json));
+        brukerService
+          .getOne(this.brukernavn)
+          .then(json => {
+            console.log(json.brukernavn);
+            console.log(json.brukerId);
+            //ny_bruker = new Bruker(json.br)
+            let navigation = Navigation.instance();
+            navigation.mounted(new Bruker(json.brukerId, json.brukernavn));
+        })
+          .catch((error: Error) => Alert.danger(error.message));
      })
      .then(history.push("/"))
      .catch((error: Error) => Alert.danger(error.message));
-  }
-
-  mounted() {
-    if (this.logged_in) {
-      brukerService
-        .getOne(this.brukernavn)
-        .then(json => this.inn_bruker = new Bruker(json.brukerId, json.brukernavn))
-        .catch((error: Error) => Alert.danger(error.message));
-    }
   } 
 }
 
@@ -555,6 +678,7 @@ class Registrer extends Component {
     brukerService
       .registrer(this.brukernavn, this.passord)
       .then(history.push("/"))
+      .then(Alert.success("Brukeren er registrert!"))
       .catch((error: Error) => Alert.danger(error.message));
   }
 }
@@ -573,6 +697,7 @@ if (root)
         <Route exact path="/rediger/:kategori/:id" component={EditSak}/>
         <Route path="/login" component={Login}/>
         <Route path="/registrer" component={Registrer}/>
+        <Route exact path="/kategori/MineSaker/:id" component={MineSaker}/>
       </div>
     </HashRouter>,
     root

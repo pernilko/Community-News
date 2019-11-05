@@ -46,7 +46,7 @@ class NyhetssakService {
     }
 
     livefeed() {
-        return axios.get<Nyhetssak[]>('http://localhost:8080/nyhetssaker').then(response => response.data);
+        return axios.get<Nyhetssak[]>('http://localhost:8080/livefeed').then(response => response.data);
     }
 
     updateSak(id: number, overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: Boolean) {
@@ -58,6 +58,10 @@ class NyhetssakService {
             "viktighet": viktighet,
 
         }).then(response => response.data);
+    }
+
+    getSakBruker(id: number) {
+        return axios.get<Nyhetssak[]>('http://localhost:8080/nyhetssaker/kategorier/MineSaker/' + id).then(response => response.data);
     }
 }
 
@@ -88,11 +92,16 @@ export let kommentarService = new KommentarService();
 export class Bruker {
     brukerId: number;
     brukernavn: string;
+
+    constructor(brukerId: number, brukernavn: string) {
+        this.brukerId = brukerId;
+        this.brukernavn = brukernavn;
+    }
 }
 
 class BrukerService {
     getOne(brukernavn: string) {
-        return axios.get<Bruker>('http://localhost:8080/brukere/' + brukernavn).then(response => response.json());
+        return axios.get<Bruker, void>('http://localhost:8080/brukere/' + brukernavn).then(response => response.data[0]);
     }
 
     login(brukernavn: string, passord: string) {

@@ -217,7 +217,7 @@ app.put("/nyhetssaker/:saksId", (req, res) => {
 });
 
 app.get("/livefeed", (req, res) => {
-    console.log("api/livefeed: Fikk GET-request fra klienten");
+    console.log("livefeed: Fikk GET-request fra klienten");
     nyhetssakDao.getLivefeed((status, data) => {
         res.status(status);
         res.json(data);
@@ -251,6 +251,14 @@ app.put("/nyhetssaker/rediger/:saksId", (req, res) => {
 app.get("/brukere/:brukernavn", (req, res) => {
 	console.log("/bruker/:brukerId: Fikk GET-request fra klient");
 	brukerDao.getOne(req.params.brukernavn, (status, data) => {
+		res.status(status);
+		res.json(data);
+	})
+});
+
+app.get("/nyhetssaker/kategorier/MineSaker/:brukerId", (req, res) => {
+	console.log("/nyhetssaker/:brukerId: Fikk GET-request fra klient");
+	nyhetssakDao.getSakerBruker(req.params.brukerId, (status, data) => {
 		res.status(status);
 		res.json(data);
 	})

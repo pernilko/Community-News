@@ -30,7 +30,7 @@ CREATE TABLE `KOMMENTAR` (
  `kommId` int(11) NOT NULL AUTO_INCREMENT,
  `kommentar` varchar(255) NOT NULL,
  `saksId` int(11) NOT NULL,
- `nick` varchar(255) DEFAULT NULL UNIQUE,
+ `nick` varchar(255) DEFAULT NOT NULL,
  PRIMARY KEY (`kommId`),
  KEY `fk_saksId` (`saksId`),
  CONSTRAINT `fk_saksId` FOREIGN KEY (`saksId`) REFERENCES `NYHETSSAK` (`saksId`)

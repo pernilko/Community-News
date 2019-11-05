@@ -53,7 +53,7 @@ module.exports = class NyhetssakDao extends Dao {
 
     getLivefeed(callback) {
         super.query(
-            "SELECT overskrift FROM NYHETSSAK WHERE NYHETSSAK.viktighet=FALSE AND TIMESTAMPDIFF(MINUTE, NOW(), NYHETSSAK.tidspunkt) <= 60 ORDER BY NYHETSSAK.tidspunkt DESC LIMIT 5",
+            "SELECT overskrift FROM NYHETSSAK WHERE NYHETSSAK.viktighet=0 ORDER BY NYHETSSAK.tidspunkt DESC LIMIT 5",
             [],
             callback
         );
@@ -63,6 +63,14 @@ module.exports = class NyhetssakDao extends Dao {
         super.query(
             "UPDATE NYHETSSAK SET NYHETSSAK.overskrift=?, NYHETSSAK.innhold=?, NYHETSSAK.bilde=?, NYHETSSAK.tidspunkt=NOW(), NYHETSSAK.kategori=?, NYHETSSAK.viktighet=? WHERE NYHETSSAK.saksId = ?",
             [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet, id],
+            callback
+        );
+    }
+
+    getSakerBruker(id, callback) {
+        super.query(
+            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE NYHETSSAK.brukerId=? ORDER BY rating DESC",
+            [id],
             callback
         );
     }
