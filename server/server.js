@@ -2,10 +2,11 @@ let express = require("express");
 let mysql = require("mysql");
 let bodyParser = require("body-parser");
 let bcrypt = require("bcryptjs");
-let socket = require("socket.io");
 let jwt = require("jsonwebtoken");
 let fs = require("fs");
 let app = express();
+let server = app.listen(8080, () => console.log("Listening on port 8080"));
+
 const NyhetssakDao = require("./nyhetssakdao.js");
 const KommentarDao = require("./kommentardao.js");
 const BrukerDao = require("./brukerdao.js");
@@ -130,7 +131,7 @@ app.post("/token", (req, res) => {
 			res.json({ error: "Not authorized" });
 		} else {
 			token = jwt.sign({ brukernavn: req.body.brukernavn}, privateKey, {
-				expiresIn: 1800
+				expiresIn: 3600
 			});
 			res.json({ jwt: token });
 		}
@@ -170,7 +171,7 @@ app.post("/nyhetssaker", (req, res) => {
     });
 });
 
-app.delete("/nyhetssaker/:saksId", (req, res) => {
+app.delete("/api/nyhetssaker/:saksId", (req, res) => {
 	console.log("/api/nyhetssaker/: Fikk DELETE-request fra klienten");
     pool.getConnection((err, connection) => {
         console.log("Connected to database");
@@ -187,20 +188,10 @@ app.delete("/nyhetssaker/:saksId", (req, res) => {
 						console.log(err);
 						res.json({ error: "error querying" });
 					} else {
-						connection.query(
-							"DELETE FROM NYHETSSAK WHERE saksId=?",
-							[req.params.saksId],
-							(err, rows) => {
-								if (err) {
-									console.log("feil ved sletting av artikkel");
-								}
-								else {
-									console.log("sletting av artikkel fullført");
-									res.send("sletting av artikkel fullført");
-								}
-								connection.release();
-							}
-						)
+						nyhetssakDao.deleteOne(req.params.saksId, (status, data) => {
+							res.status(status);
+							res.json(data);
+						});
 					}
 				}
 			);
@@ -222,7 +213,7 @@ app.get("/livefeed", (req, res) => {
         res.status(status);
         res.json(data);
     });
-});
+})
 
 app.get("/nyhetssaker/:kategori/:saksId/kommentarer", (req, res) => {
 	console.log("/api/nyhetssaker/:kategori/:saksId/kommentarer: Fikk GET-request fra klient");
@@ -263,5 +254,3 @@ app.get("/nyhetssaker/kategorier/MineSaker/:brukerId", (req, res) => {
 		res.json(data);
 	})
 });
-
-let server = app.listen(8080);

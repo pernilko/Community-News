@@ -14,41 +14,36 @@
     overflow: hidden;
     overflow-y: hidden;
     -webkit-animation-name: move;
-    -webkit-animation-duration: 7s;
+    -webkit-animation-duration: 20s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-direction: right;
     -webkit-animation-timing-function: linear;
 }
 
-.ticker:hover {
-    -webkit-animation-play-state: paused;
-}
-
 .title {
     font-size: 15px;
     color: white;
-    padding: 25px;
     margin-top: 2px;
-}
-
-.date {
-    color: white;
-    font-size: 15px;
-    padding: 25px;
-    margin-top: 0px;
-    opacity: 0.5;
+    padding: 10px;
+    margin-left: 100px;
+    margin-right: 20px;
+    color: red;
 }
 
 @keyframes move {
     0% {
-        margin-left: -100%;
+        margin-left: 100%;
     }
     100% {
-        margin-left: 100%;
+        margin-left: -100%;
     }
 }
 
 img.resize {
     max-width:50%;
     max-height:50%;
-  }
+}
+
+#button {
+    margin: 10px;
+}

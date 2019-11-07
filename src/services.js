@@ -38,7 +38,7 @@ class NyhetssakService {
     }
 
     deleteSak(id: number) {
-        return axios.delete<Nyhetssak, void>('http://localhost:8080/nyhetssaker/' + id).then(response => response.data);
+        return axios.delete<Nyhetssak, void>('http://localhost:8080/api/nyhetssaker/' + id).then(response => response.data);
     }
 
     upvote(id: number) {
@@ -118,7 +118,7 @@ class BrukerService {
         }).then(response => response.json())
     }
 
-    getToken(token: string) {
+    postToken(token: string) {
         return axios.post<Bruker, void>('http://localhost:8080/token', {
             headers: {
                 "x-access-token": token
