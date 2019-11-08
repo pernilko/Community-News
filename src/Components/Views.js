@@ -26,7 +26,8 @@ export class Forside extends Component {
             <Card>
             <img src={sak.bilde} width="945" height="400"/>
             <Card.Body>
-              <Card.Title>{sak.overskrift}</Card.Title>
+              <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
+              <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
             </Card.Body>
           </Card>
           </a>
@@ -61,7 +62,8 @@ export class Sakliste extends Component<{ match: { params: { kategori: string } 
   <Card>
   <img src={sak.bilde} width="945" height="400"/>
   <Card.Body>
-    <Card.Title>{sak.overskrift}</Card.Title>
+    <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
+    <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
   </Card.Body>
 </Card>
 </a>
@@ -97,7 +99,8 @@ export class MineSaker extends Component<{ match: { params: { id: number } } }> 
   <Card>
   <img src={sak.bilde} width="945" height="400"/>
   <Card.Body>
-    <Card.Title>{sak.overskrift}</Card.Title>
+    <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
+    <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
   </Card.Body>
 </Card>
 </a>

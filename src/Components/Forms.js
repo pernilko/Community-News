@@ -19,6 +19,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
     if (this.sak) {
       console.log(this.sak);
     return <>
+    <div className="mx-auto w-75">
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
@@ -40,6 +41,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
     <Form.Label>Bilde</Form.Label>
     <Form.Control
     type="text" 
+    placeholder="Lim inn URL"
     value={this.sak.bilde}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.bilde = event.target.value)}
     />
@@ -57,7 +59,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
     </select>
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlSelect2">
-    <Form.Label>Viktighet</Form.Label>
+    <Form.Label>Viktig?</Form.Label>
     <br></br>
     <input
     type="checkbox"
@@ -67,6 +69,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
   </Form.Group>
   <Button variant="success" onClick={this.save}>Endre nyhetsartikkel</Button>
 </Form>
+</div>
     </>
     }
     else {
@@ -107,6 +110,7 @@ export class AddSak extends Component {
 
   render() {
     return <>
+    <div className="mx-auto w-75">
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
@@ -127,6 +131,7 @@ export class AddSak extends Component {
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Bilde</Form.Label>
     <Form.Control
+    placeholder="Lim inn URL"
     type="text" 
     value={this.bilde}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bilde = event.target.value)}
@@ -145,7 +150,7 @@ export class AddSak extends Component {
     </select>
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlSelect2">
-    <Form.Label>Viktighet</Form.Label>
+    <Form.Label>Viktig?</Form.Label>
     <br></br>
     <input
     type="checkbox"
@@ -156,6 +161,7 @@ export class AddSak extends Component {
   </Form.Group>
   <Button variant="success" onClick={this.add}>Legg til nyhetsartikkel</Button>
 </Form>
+</div>
     </>
   }
 

@@ -2,6 +2,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import {Alert} from '../widgets';
@@ -23,13 +24,14 @@ export class LiveFeed extends Component {
   }
 
   render() {
+
     if (this.saker) {
       return (
       <div class="wrapper">
         <div class="ticker">
           {this.saker.map(sak => (
             <div>
-              <LiveFeedElement title={sak.overskrift}/>
+              <LiveFeedElement title={sak.overskrift} time={sak.tidspunkt}/>
             </div> 
           ))}
         </div>
@@ -38,12 +40,16 @@ export class LiveFeed extends Component {
     }
     else {
       return (
-      <div>Laster LiveFeed...</div>
+      <div>
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
+      </div>
       )
     }
   }
 
-  /*
+  /*  
   mounted() {
     nyhetssakService
       .livefeed()
@@ -57,7 +63,7 @@ class LiveFeedElement extends Component {
   render() {
     return (
       <div>
-        <h1 class="title">{this.props.title}</h1>
+      <p class="title">{this.props.title}, {this.props.time.substring(0, 9) + " " + this.props.time.substring(11, 16)}</p>
       </div>
     )
   }
@@ -70,7 +76,7 @@ export class Navigation extends Component {
     console.log(this.inn_bruker);
     if (this.inn_bruker) {
       return <>
-    <Navbar bg="dark" expand="lg" variant="dark">
+    <Navbar id="sticky" bg="dark" expand="lg" variant="dark">
   <Navbar.Brand href="#">
       <img
         src="bilder/logo.jpg"
@@ -93,7 +99,7 @@ export class Navigation extends Component {
   </Navbar.Collapse>
   <Navbar.Collapse className="justify-content-end">
   <Navbar.Text>
-      Signed in as: <a href="#">{this.inn_bruker.brukernavn}</a>
+      Signed in as: <a>{this.inn_bruker.brukernavn}</a>
     </Navbar.Text>
   <Button id="button" variant="danger" onClick={this.logout}>Logg ut</Button>
   </Navbar.Collapse>
@@ -102,7 +108,7 @@ export class Navigation extends Component {
     }
     else {
       return <>
-    <Navbar bg="dark" expand="lg" variant="dark">
+    <Navbar sticky="top" bg="dark" expand="lg" variant="dark">
   <Navbar.Brand href="#">
       <img
         src="bilder/logo.jpg"

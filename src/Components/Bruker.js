@@ -16,10 +16,12 @@ export class Login extends Component {
 
   render() {
     return <>
+    <div className="mx-auto w-75">
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Brukernavn</Form.Label>
     <Form.Control 
+    size="sm"
     type="text" 
     value={this.brukernavn}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.brukernavn = event.target.value)}
@@ -35,6 +37,7 @@ export class Login extends Component {
   </Form.Group>
   <Button variant="primary" onClick={this.logg_in}>Logg inn</Button>
 </Form>
+</div>
     </>
   }
 
@@ -43,7 +46,7 @@ export class Login extends Component {
       .login(this.brukernavn, this.passord)
       .then(json => {
     	  localStorage.token = json.jwt;
-    	  console.log(JSON.stringify(json));
+    	  //console.log(JSON.stringify(json));
         brukerService
           .getOne(this.brukernavn)
           .then(json => {
@@ -53,13 +56,14 @@ export class Login extends Component {
             let navigation = Navigation.instance();
             navigation.mounted(new Bruker(json.brukerId, json.brukernavn));
         })
-          .then(() => {
-            brukerService
-              .postToken(localStorage.token)
-              .then(console.log("token posted"))
-              .catch((error: Error) => Alert.danger(error.message));
-          })
-          .catch((error: Error) => Alert.danger(error.message));
+      .then(() => {
+        console.log(this.brukernavn);
+        //console.log(localStorage.token);
+        brukerService
+          .postToken(this.brukernavn)
+          .then(json => localStorage.token = json.jwt)
+          .catch((error: Error) => Alert.danger("hva faen i helvete"));
+      })
      })
      .then(history.push("/"))
      .then(Alert.success("Nå er du logget inn!"))
@@ -73,6 +77,7 @@ export class Registrer extends Component {
 
   render() {
     return <>
+    <div className="mx-auto w-75">
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Brukernavn</Form.Label>
@@ -92,6 +97,7 @@ export class Registrer extends Component {
   </Form.Group>
   <Button variant="success" onClick={this.register}>Registrer bruker</Button>
 </Form>
+</div>
     </>
   }
 

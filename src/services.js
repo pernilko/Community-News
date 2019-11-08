@@ -38,7 +38,7 @@ class NyhetssakService {
     }
 
     deleteSak(id: number) {
-        return axios.delete<Nyhetssak, void>('http://localhost:8080/api/nyhetssaker/' + id).then(response => response.data);
+        return axios.delete<Nyhetssak, void>('http://localhost:8080/nyhetssaker/' + id).then(response => response.data);
     }
 
     upvote(id: number) {
@@ -118,12 +118,18 @@ class BrukerService {
         }).then(response => response.json())
     }
 
-    postToken(token: string) {
-        return axios.post<Bruker, void>('http://localhost:8080/token', {
-            headers: {
-                "x-access-token": token
-            }
-        }).then(response => response.json())
+    postToken(brukernavn: string) {
+        console.log(localStorage.token);
+        return fetch("http://localhost:8080/token", 
+  	    {
+        method: "POST",
+        headers: {
+    	    "Content-Type": "application/json; charset=utf-8",
+    	    "x-access-token": localStorage.token
+	    },
+        body: JSON.stringify({"brukernavn": brukernavn})
+        })
+        .then(response => response.json())
     }
 }
 

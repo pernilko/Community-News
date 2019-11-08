@@ -33,24 +33,10 @@ let brukerDao = new BrukerDao(pool);
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
+	res.header("Access-Control-Request-Headers", "x-access-token");
 	res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
     next();
-});
-
-
-app.use("/api", (req, res, next) => {
-	var token = req.headers["x-access-token"];
-	jwt.verify(token, publicKey, (err, decoded) => {
-		if (err) {
-			console.log("Token IKKE ok");
-			res.status(401);
-			res.json({ error: "Not authorized" });
-		} else {
-			console.log("Token ok: " + decoded.brukernavn);
-			next();
-		}
-	});
 });
 
 app.post("/login", (req, res) => {
@@ -123,6 +109,7 @@ app.post("/registrer", (req, res) => {
 
 app.post("/token", (req, res) => {
 	let token = req.headers["x-access-token"];
+	console.log(token);
 	jwt.verify(token, publicKey, (err, decoded) => {
 		if (err) {
 			console.log(err);
@@ -171,7 +158,7 @@ app.post("/nyhetssaker", (req, res) => {
     });
 });
 
-app.delete("/api/nyhetssaker/:saksId", (req, res) => {
+app.delete("/nyhetssaker/:saksId/", (req, res) => {
 	console.log("/api/nyhetssaker/: Fikk DELETE-request fra klienten");
     pool.getConnection((err, connection) => {
         console.log("Connected to database");
