@@ -16,4 +16,12 @@ module.exports = class KommentarDao extends Dao {
             callback
         );
     }
+
+    deleteOne(kommId, callback) {
+        super.query(
+            "DELETE FROM KOMMENTAR WHERE KOMMENTAR.kommId=?",
+            [kommId],
+            callback
+        );
+    }
 };

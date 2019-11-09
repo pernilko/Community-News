@@ -54,3 +54,17 @@ img.resize {
 #tid {
     color: grey;
 }
+
+#nick {
+    color: #34b7eb;
+    text-decoration: underline;
+}
+
+#comment-button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#comment {
+    margin-bottom: 20px;
+}

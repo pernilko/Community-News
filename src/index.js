@@ -20,8 +20,8 @@ if (root)
   ReactDOM.render(
     <HashRouter>
       <div>
-      <Alert/>
         <Navigation />
+        <Alert/>
         <LiveFeed />
         <Route exact path="/" component={Forside}/>
         <Route exact path="/kategori/:kategori" component={Sakliste}/>

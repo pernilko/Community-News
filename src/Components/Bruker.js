@@ -21,7 +21,6 @@ export class Login extends Component {
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Brukernavn</Form.Label>
     <Form.Control 
-    size="sm"
     type="text" 
     value={this.brukernavn}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.brukernavn = event.target.value)}

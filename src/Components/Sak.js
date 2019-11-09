@@ -30,15 +30,15 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Nav.Link href={"#/rediger/"+this.props.match.params.kategori+"/"+this.props.match.params.id}>
     <Button variant="success" onClick={this.edit}>Rediger nyhetsartikkel</Button>
     </Nav.Link>
-    <Button variant="primary" onClick={this.upvote}>Upvote</Button>
-    <Card className="bg-light text-black" style={{ width: '36rem' }}>
+    <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} alt="Card image"/>
-           <Card.Title>{this.sak.overskrift}</Card.Title>
+           <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
            <Card.Text>{this.sak.innhold}</Card.Text>
-    <Card.Text>Updated {this.sak.tidspunkt} minutes ago.</Card.Text>
+      <Card.Text id="tid">Sist oppdatert {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
+      <Button variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
 </Card>
-
-    <Form>
+    <Form className="mx-auto w-75">
+    <Card.Title><h2>Kommentarer</h2></Card.Title>
   <Form.Row>
     <Col>
       <Form.Control
@@ -49,28 +49,28 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       />
     </Col>
   </Form.Row>
+  <Button id="comment-button" variant="primary" onClick={this.add_b}>Kommenter</Button>
 </Form>
-<Button variant="primary" onClick={this.add_b}>Kommenter</Button>
-
   {this.kommentarer.map(kommentar => (
-    <Card className="bg-dark text-white" style={{ width: '18rem' }}>
-           <Card.Title>{kommentar.nick}</Card.Title>
+    <Card id="comment" className="bd-callout bd-callout-info mx-auto w-75">
+           <Card.Title id="nick">{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
+           <Button variant="danger" onClick={ () => this.del_comment(kommentar.kommId) } style={{width: "150px"}}>Slett kommentar</Button> 
 </Card>
   ))}
     </> 
         }
         else {
           return <>
-    <Button variant="primary" onClick={this.upvote}>Upvote</Button>
-    <Card className="bg-light text-black" style={{ width: '36rem' }}>
+    <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} alt="Card image"/>
-           <Card.Title>{this.sak.overskrift}</Card.Title>
+           <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
            <Card.Text>{this.sak.innhold}</Card.Text>
-    <Card.Text>Updated {this.sak.tidspunkt} minutes ago.</Card.Text>
+      <Card.Text id="tid">Sist oppdatert {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
+      <Button variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
 </Card>
-
-    <Form>
+    <Form className="mx-auto w-75">
+    <Card.Title><h2>Kommentarer</h2></Card.Title>
   <Form.Row>
     <Col>
       <Form.Control
@@ -81,12 +81,12 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       />
     </Col>
   </Form.Row>
+  <Button id="comment-button" variant="primary" onClick={this.add_b}>Kommenter</Button>
 </Form>
-<Button variant="primary" onClick={this.add_b}>Kommenter</Button>
 
   {this.kommentarer.map(kommentar => (
-    <Card className="bg-dark text-white" style={{ width: '18rem' }}>
-           <Card.Title>{kommentar.nick}</Card.Title>
+    <Card id="comment" className="bd-callout bd-callout-info mx-auto w-75">
+           <Card.Title id="nick">{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
 </Card>
   ))}
@@ -95,22 +95,22 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       }
       else {
         return <>
-    <Button variant="primary" onClick={this.upvote}>Upvote</Button>
-    <Card className="bg-light text-black" style={{ width: '36rem' }}>
+    <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} alt="Card image"/>
-           <Card.Title>{this.sak.overskrift}</Card.Title>
+           <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
            <Card.Text>{this.sak.innhold}</Card.Text>
-    <Card.Text>Updated {this.sak.tidspunkt} minutes ago.</Card.Text>
+      <Card.Text id="tid">Sist oppdatert {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
+      <Button variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
 </Card>
-
-    <Form>
+    <Form className="mx-auto w-75">
+    <Card.Title><h2>Kommentarer</h2></Card.Title>
   <Form.Row>
-    <Col>
-      <Form.Control 
-      placeholder="Nick" 
+  <Col>
+      <Form.Control
+      placeholder="Nick"
       type="text"
-      value={this.nick}
-    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.nick = event.target.value)}
+      value = {this.nick}
+      onChange = {(event: SyntheticInputEvent<HTMLInputElement>) => (this.nick = event.target.value)} 
       />
     </Col>
     <Col>
@@ -122,12 +122,12 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       />
     </Col>
   </Form.Row>
+  <Button id="comment-button" variant="primary" onClick={this.add}>Kommenter</Button>
 </Form>
-<Button variant="primary" onClick={this.add}>Kommenter</Button>
 
   {this.kommentarer.map(kommentar => (
-    <Card className="bg-dark text-white" style={{ width: '18rem' }}>
-           <Card.Title>{kommentar.nick}</Card.Title>
+    <Card id="comment" className="bd-callout bd-callout-info mx-auto w-75">
+           <Card.Title id="nick">{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
 </Card>
   ))}
@@ -191,5 +191,15 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       .upvote(this.props.match.params.id)
       .then(Alert.info("Saken er upvotet!"))
       .catch((error: Error) => Alert.danger(error.message));
+  }
+
+  del_comment(kommId) {
+    kommentarService 
+      .deleteKommentar(kommId)
+      .then(this.mounted())
+      .then(Alert.danger("Kommentar slettet"))
+      .catch((error: Error) => Alert.danger(error.message));
+    
+    Sak.instance().mounted();
   }
 }

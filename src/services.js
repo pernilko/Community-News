@@ -68,7 +68,7 @@ class NyhetssakService {
 export let nyhetssakService = new NyhetssakService();
 
 export class Kommentar {
-  id: number;
+  kommId: number;
   nick: string;
   kommentar: string;
   saksId: number;
@@ -84,6 +84,10 @@ class KommentarService {
             "kommentar": kommentar,
             "nick": nick
         }).then(response => response.data);
+    }
+
+    deleteKommentar(id: number) {
+        return axios.delete<Kommentar, void>('http://localhost:8080/nyhetssaker/kommentarer/' + id).then(response => response.data);
     }
 }
 

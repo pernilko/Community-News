@@ -152,7 +152,7 @@ export class AddSak extends Component {
   <Form.Group controlId="exampleForm.ControlSelect2">
     <Form.Label>Viktig?</Form.Label>
     <br></br>
-    <input
+    <input  
     type="checkbox"
     value={this.viktighet}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.viktighet = event.target.checked)}

@@ -127,7 +127,7 @@ app.post("/token", (req, res) => {
 
 
 app.get("/nyhetssaker", (req, res) => {
-	console.log("/api/nyhetssaker: Fikk GET-request fra klienten");
+	console.log("/nyhetssaker: Fikk GET-request fra klienten");
     nyhetssakDao.getAll((status, data) => {
         res.status(status);
         res.json(data);
@@ -135,7 +135,7 @@ app.get("/nyhetssaker", (req, res) => {
 });
 
 app.get("/nyhetssaker/:kategori", (req, res) => {
-	console.log("/api/nyhetssaker/:kategori: Fikk GET-request fra klient");
+	console.log("/nyhetssaker/:kategori: Fikk GET-request fra klient");
     nyhetssakDao.getKategori(req.params.kategori, (status, data) => {
         res.status(status);
         res.json(data);
@@ -143,7 +143,7 @@ app.get("/nyhetssaker/:kategori", (req, res) => {
 });
 
 app.get("/nyhetssaker/:kategori/:saksId", (req, res) => {
-    console.log("/api/nyhetssaker/:kategori/:id: Fikk GET-request fra klient");
+    console.log("/nyhetssaker/:kategori/:id: Fikk GET-request fra klient");
     nyhetssakDao.getOneId(req.params.kategori, req.params.saksId, (status, data) => {
         res.status(status);
         res.json(data);
@@ -151,7 +151,7 @@ app.get("/nyhetssaker/:kategori/:saksId", (req, res) => {
 });
 
 app.post("/nyhetssaker", (req, res) => {
-    console.log("/api/nyhetssaker: Fikk POST-request fra klient");
+    console.log("/nyhetssaker: Fikk POST-request fra klient");
     nyhetssakDao.createOne(req.body, (status, data) => {
         res.status(status);
         res.json(data);
@@ -159,7 +159,7 @@ app.post("/nyhetssaker", (req, res) => {
 });
 
 app.delete("/nyhetssaker/:saksId/", (req, res) => {
-	console.log("/api/nyhetssaker/: Fikk DELETE-request fra klienten");
+	console.log("nyhetssaker/: Fikk DELETE-request fra klienten");
     pool.getConnection((err, connection) => {
         console.log("Connected to database");
         if (err) {
@@ -187,7 +187,7 @@ app.delete("/nyhetssaker/:saksId/", (req, res) => {
 });
 
 app.put("/nyhetssaker/:saksId", (req, res) => {
-    console.log("api/nyhetssaker/:saksId: Fikk PUT-request fra klienten");
+    console.log("nyhetssaker/:saksId: Fikk PUT-request fra klienten");
     nyhetssakDao.upvote(req.params.saksId, (status, data) => {
         res.status(status);
         res.json(data);
@@ -203,7 +203,7 @@ app.get("/livefeed", (req, res) => {
 })
 
 app.get("/nyhetssaker/:kategori/:saksId/kommentarer", (req, res) => {
-	console.log("/api/nyhetssaker/:kategori/:saksId/kommentarer: Fikk GET-request fra klient");
+	console.log("/nyhetssaker/:kategori/:saksId/kommentarer: Fikk GET-request fra klient");
     kommentarDao.getAll(req.params.kategori, req.params.saksId, (status, data) => {
         res.status(status);
         res.json(data);
@@ -211,19 +211,27 @@ app.get("/nyhetssaker/:kategori/:saksId/kommentarer", (req, res) => {
 });
 
 app.post("/nyhetssaker/:saksId", (req, res) => {
-    console.log("/api/nyhetssaker/:saksId: Fikk POST-request fra klient");
+    console.log("nyhetssaker/:saksId: Fikk POST-request fra klient");
     kommentarDao.createOne(req.params.saksId, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
+app.delete("/nyhetssaker/kommentarer/:kommId", (req, res) => {
+	console.log("nyhetssaker/kommentarer/:kommId");
+	kommentarDao.deleteOne(req.params.kommId, (status, data) => {
+		res.status(status);
+		res.json(data);
+	});
+});
+
 app.put("/nyhetssaker/rediger/:saksId", (req, res) => {
-	console.log("/api/nyhetssaker/saksId: Fikk PUT-request fra klient");
+	console.log("nyhetssaker/saksId: Fikk PUT-request fra klient");
 	nyhetssakDao.updateSak(req.params.saksId, req.body, (status, data) => {
 		res.status(status);
 		res.json(data);
-	})
+	});
 });
 
 app.get("/brukere/:brukernavn", (req, res) => {
@@ -231,7 +239,7 @@ app.get("/brukere/:brukernavn", (req, res) => {
 	brukerDao.getOne(req.params.brukernavn, (status, data) => {
 		res.status(status);
 		res.json(data);
-	})
+	});
 });
 
 app.get("/nyhetssaker/kategorier/MineSaker/:brukerId", (req, res) => {
@@ -239,5 +247,5 @@ app.get("/nyhetssaker/kategorier/MineSaker/:brukerId", (req, res) => {
 	nyhetssakDao.getSakerBruker(req.params.brukerId, (status, data) => {
 		res.status(status);
 		res.json(data);
-	})
+	});
 });

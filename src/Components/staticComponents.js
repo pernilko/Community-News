@@ -63,7 +63,7 @@ class LiveFeedElement extends Component {
   render() {
     return (
       <div>
-      <p class="title">{this.props.title}, {this.props.time.substring(0, 9) + " " + this.props.time.substring(11, 16)}</p>
+      <p class="title">{this.props.title}, {this.props.time.substring(0, 10) + " " + this.props.time.substring(11, 16)}</p>
       </div>
     )
   }
