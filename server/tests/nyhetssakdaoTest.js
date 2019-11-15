@@ -65,3 +65,17 @@ test("get one category article from db", done => {
   nyhetssakdao.getKategori("Nyheter", callback);
 });
 
+test("add article to db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+
+  nyhetssakdao.createOne(
+    { overskrift: "overskrift2", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, rating: 0, brukerId: 1},
+    callback
+  );
+});

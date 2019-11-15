@@ -27,7 +27,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    createOne(json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: string, rating: string, brukerId: string}, callback: void) {
+    createOne(json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: Boolean, rating: number, brukerId: number}, callback: void) {
         super.query(
             "INSERT INTO NYHETSSAK (overskrift, innhold, tidspunkt, bilde, kategori, viktighet, rating, brukerId) VALUES (?, ?, NOW(), ?, ?, ?, 0, ?)",
             [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet, json.brukerId],
