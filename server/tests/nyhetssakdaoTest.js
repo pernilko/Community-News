@@ -27,14 +27,6 @@ afterAll(() => {
   pool.end();
 });
 
-describe('Empty test', () => {
-  it('1 equals 1', done => {
-    expect(1).toEqual(1);
-    done();
-  });
-});
-
-
 test("get all articles from db", done => {
   function callback(status, data) {
     console.log(
@@ -59,5 +51,17 @@ test("get one article from db", done => {
   }
 
   nyhetssakdao.getOneId("Nyheter", 1, callback);
+});
+
+test("get one category article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(0);
+    done();
+  }
+
+  nyhetssakdao.getKategori("Nyheter", callback);
 });
 
