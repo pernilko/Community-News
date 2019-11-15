@@ -155,3 +155,31 @@ test("get livefeed from db", done => {
 
   nyhetssakdao.getLivefeed(callback);
 });
+
+test("update one article in db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  nyhetssakdao.updateSak(2,
+    { overskrift: "overskrift3", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, id: 2},
+    callback
+  );
+});
+
+test("get updated article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe("overskrift3");
+    done();
+  }
+
+  nyhetssakdao.getKategori("Sport", callback);
+});

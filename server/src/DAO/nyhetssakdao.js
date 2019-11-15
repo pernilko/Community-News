@@ -67,7 +67,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    updateSak(id: string, json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: string, id: string}, callback: void) {
+    updateSak(id: number, json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: Boolean, id: number}, callback: void) {
         super.query(
             "UPDATE NYHETSSAK SET NYHETSSAK.overskrift=?, NYHETSSAK.innhold=?, NYHETSSAK.bilde=?, NYHETSSAK.tidspunkt=NOW(), NYHETSSAK.kategori=?, NYHETSSAK.viktighet=? WHERE NYHETSSAK.saksId = ?",
             [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet, id],
