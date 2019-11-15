@@ -35,3 +35,30 @@ test("get all comments from db", done => {
 
   kommentardao.getAll("Nyheter", 1, callback);
 }, 30000);
+
+test("add comment to db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+
+  kommentardao.createOne(1,
+    { kommentar: "kommentar2", nick: "bruker2"},
+    callback
+  );
+}, 30000);
+
+test("get new comments from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(2);
+    done();
+  }
+
+  kommentardao.getAll("Nyheter", 1, callback);
+}, 30000);
