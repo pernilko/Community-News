@@ -38,7 +38,7 @@ test("get all articles from db", done => {
   }
 
   nyhetssakdao.getAll(callback);
-});
+}, 30000);
 
 test("get one article from db", done => {
   function callback(status, data) {
@@ -51,7 +51,7 @@ test("get one article from db", done => {
   }
 
   nyhetssakdao.getOneId("Nyheter", 1, callback);
-});
+}, 30000);
 
 test("get one category article from db", done => {
   function callback(status, data) {
@@ -63,7 +63,7 @@ test("get one category article from db", done => {
   }
 
   nyhetssakdao.getKategori("Nyheter", callback);
-});
+}, 30000);
 
 test("add article to db", done => {
   function callback(status, data) {
@@ -78,7 +78,7 @@ test("add article to db", done => {
     { overskrift: "overskrift2", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, rating: 0, brukerId: 1},
     callback
   );
-});
+}, 30000);
 
 test("get new article from db", done => {
   function callback(status, data) {
@@ -92,7 +92,7 @@ test("get new article from db", done => {
   }
 
   nyhetssakdao.getKategori("Sport", callback);
-});
+}, 30000);
 
 test("upvote one article in db", done => {
   function callback(status, data) {
@@ -104,7 +104,7 @@ test("upvote one article in db", done => {
   }
 
   nyhetssakdao.upvote(1, callback);
-});
+}, 30000);
 
 test("get article rating from db", done => {
   function callback(status, data) {
@@ -117,7 +117,7 @@ test("get article rating from db", done => {
   }
 
   nyhetssakdao.getOneId("Nyheter", 1, callback);
-});
+}, 30000);
 
 test("downvote one article in db", done => {
   function callback(status, data) {
@@ -129,7 +129,7 @@ test("downvote one article in db", done => {
   }
 
   nyhetssakdao.downvote(1, callback);
-});
+}, 30000);
 
 test("get article rating from db", done => {
   function callback(status, data) {
@@ -142,7 +142,7 @@ test("get article rating from db", done => {
   }
 
   nyhetssakdao.getOneId("Nyheter", 1, callback);
-});
+}, 30000);
 
 test("get livefeed from db", done => {
   function callback(status, data) {
@@ -155,7 +155,7 @@ test("get livefeed from db", done => {
   }
 
   nyhetssakdao.getLivefeed(callback);
-});
+}, 30000);
 
 test("update one article in db", done => {
   function callback(status, data) {
@@ -170,7 +170,7 @@ test("update one article in db", done => {
     { overskrift: "overskrift3", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, id: 15},
     callback
   );
-});
+}, 30000);
 
 test("get updated article from db", done => {
   function callback(status, data) {
@@ -183,7 +183,7 @@ test("get updated article from db", done => {
   }
 
   nyhetssakdao.getKategori("Sport", callback);
-});
+}, 30000);
 
 test("get user article from db", done => {
   function callback(status, data) {
@@ -196,4 +196,4 @@ test("get user article from db", done => {
   }
 
   nyhetssakdao.getSakerBruker(1, callback);
-});
+}, 30000);
