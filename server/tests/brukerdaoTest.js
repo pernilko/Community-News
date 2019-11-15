@@ -27,5 +27,5 @@ test("get one user from db", done => {
     done();
   }
 
-  kommentardao.getOne("bruker", callback);
+  brukerdao.getOne("bruker", callback);
 }, 30000);
