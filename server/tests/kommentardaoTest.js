@@ -72,5 +72,17 @@ test("delete comment from db", done => {
     done();
   }
 
-  kommentardao.deleteOne(2, callback);
+  kommentardao.deleteOne(5, callback);
+}, 30000);
+
+test("get deleted comment from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    done();
+  }
+
+  kommentardao.getAll("Nyheter", 1, callback);
 }, 30000);
