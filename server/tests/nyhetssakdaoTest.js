@@ -85,6 +85,7 @@ test("get new article from db", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
+    console.log(data.saksId);
     expect(data.length).toBe(1);
     expect(data[0].overskrift).toBe("overskrift2");
     done();
@@ -165,7 +166,7 @@ test("update one article in db", done => {
     done();
   }
 
-  nyhetssakdao.updateSak(2,
+  nyhetssakdao.updateSak(15,
     { overskrift: "overskrift3", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, id: 2},
     callback
   );
