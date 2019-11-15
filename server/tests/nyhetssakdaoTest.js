@@ -142,3 +142,16 @@ test("get article rating from db", done => {
 
   nyhetssakdao.getOneId("Nyheter", 1, callback);
 });
+
+test("get livefeed from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift.toBe("overskrift2");
+    done();
+  }
+
+  nyhetssakdao.getLivefeed(callback);
+});
