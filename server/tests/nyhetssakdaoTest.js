@@ -197,3 +197,27 @@ test("get user article from db", done => {
 
   nyhetssakdao.getSakerBruker(1, callback);
 }, 30000);
+
+test("deleting one article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  nyhetssakdao.deleteOne(15, callback);
+}, 30000);
+
+test("get deleted article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(0);
+    done();
+  }
+
+  nyhetssakdao.getKategori("Sport", callback);
+}, 30000);
