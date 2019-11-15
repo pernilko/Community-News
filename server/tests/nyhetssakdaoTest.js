@@ -47,3 +47,17 @@ test("get all articles from db", done => {
 
   nyhetssakdao.getAll(callback);
 });
+
+test("get one article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe("overskrift");
+    done();
+  }
+
+  nyhetssakdao.getOneId("Nyheter", 1, callback);
+});
+
