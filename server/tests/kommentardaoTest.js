@@ -62,3 +62,15 @@ test("get new comments from db", done => {
 
   kommentardao.getAll("Nyheter", 1, callback);
 }, 30000);
+
+test("delete comment from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+
+  kommentardao.deleteOne(2, callback);
+}, 30000);
