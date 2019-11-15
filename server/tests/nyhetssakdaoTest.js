@@ -98,7 +98,7 @@ test("get one article from db", done => {
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
     expect(data.length).toBe(1);
-    expect(data[0].overskrift).toBe(1);
+    expect(data[0].rating).toBe(1);
     done();
   }
 
