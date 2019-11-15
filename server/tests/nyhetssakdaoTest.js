@@ -80,12 +80,12 @@ test("add article to db", done => {
   );
 });
 
-test("get one article from db", done => {
+test("get new article from db", done => {
   function callback(status, data) {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.length).toBe(0);
+    expect(data.length).toBe(1);
     expect(data[0].overskrift).toBe("overskrift2");
     done();
   }
@@ -105,7 +105,7 @@ test("upvote one article in db", done => {
   nyhetssakdao.upvote(1, callback);
 });
 
-test("get one article from db", done => {
+test("get article rating from db", done => {
   function callback(status, data) {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
@@ -130,12 +130,12 @@ test("downvote one article in db", done => {
   nyhetssakdao.downvote(1, callback);
 });
 
-test("get one article from db", done => {
+test("get article rating from db", done => {
   function callback(status, data) {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.length).toBe(0);
+    expect(data.length).toBe(1);
     expect(data[0].rating).toBe(0);
     done();
   }
