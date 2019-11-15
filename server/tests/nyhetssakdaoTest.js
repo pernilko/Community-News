@@ -90,7 +90,7 @@ test("get new article from db", done => {
     done();
   }
 
-  nyhetssakdao.getOneId("Sport", 2, callback);
+  nyhetssakdao.getKategori("Sport", callback);
 });
 
 test("upvote one article in db", done => {
