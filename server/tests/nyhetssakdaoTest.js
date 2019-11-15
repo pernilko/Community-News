@@ -167,7 +167,7 @@ test("update one article in db", done => {
   }
 
   nyhetssakdao.updateSak(15,
-    { overskrift: "overskrift3", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, id: 2},
+    { overskrift: "overskrift3", innhold: "innhold2", bilde: "bilde.jpg", kategori: "Sport", viktighet: false, id: 15},
     callback
   );
 });
