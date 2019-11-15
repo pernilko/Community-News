@@ -80,6 +80,19 @@ test("add article to db", done => {
   );
 });
 
+test("get one article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(0);
+    expect(data[0].overskrift).toBe("overskrift2");
+    done();
+  }
+
+  nyhetssakdao.getOneId("Sport", 2, callback);
+});
+
 test("upvote one article in db", done => {
   function callback(status, data) {
     console.log(
@@ -99,6 +112,31 @@ test("get one article from db", done => {
     );
     expect(data.length).toBe(1);
     expect(data[0].rating).toBe(1);
+    done();
+  }
+
+  nyhetssakdao.getOneId("Nyheter", 1, callback);
+});
+
+test("downvote one article in db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  nyhetssakdao.downvote(1, callback);
+});
+
+test("get one article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(0);
+    expect(data[0].rating).toBe(0);
     done();
   }
 
