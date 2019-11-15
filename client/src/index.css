@@ -1,0 +1,96 @@
+.wrapper {
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+    white-space: nowrap;
+    overflow-y: hidden;
+    margin-bottom: 59px;
+}
+
+.ticker {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    background-color: black;
+    overflow: hidden;
+    overflow-y: hidden;
+    -webkit-animation-name: move;
+    -webkit-animation-duration: 20s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: right;
+    -webkit-animation-timing-function: linear;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+      "s s";
+    grid-gap: 10px;
+    margin: 0;
+    padding: 10px;
+  }
+
+.title {
+    font-size: 15px;
+    color: white;
+    margin-top: 2px;
+    padding: 10px;
+    margin-left: 100px;
+    margin-right: 5px;
+}
+
+#article s {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+@keyframes move {
+    0% {
+        margin-left: 100%;
+    }
+    100% {
+        margin-left: -100%;
+    }
+}
+
+img.resize {
+    max-width:50%;
+    max-height:50%;
+}
+
+#button {
+    margin: 10px;
+}
+
+#overskrift {
+    color: black;
+}
+
+#tid {
+    color: grey;
+}
+
+#nick {
+    color: #34b7eb;
+    text-decoration: underline;
+}
+
+#comment-button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#comment {
+    margin-bottom: 20px;
+}
+
+#upvote:focus {     
+    background-color: green;
+}
+
+#upvote {
+    margin-right: 10px;
+}
+
+#downvote:focus {     
+    background-color: green;
+}
