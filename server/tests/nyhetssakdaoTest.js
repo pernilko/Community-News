@@ -184,3 +184,16 @@ test("get updated article from db", done => {
 
   nyhetssakdao.getKategori("Sport", callback);
 });
+
+test("get user article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(2);
+    expect(data[0].overskrift).toBe("overskrift1");
+    done();
+  }
+
+  nyhetssakdao.getSakerBruker(1, callback);
+});
