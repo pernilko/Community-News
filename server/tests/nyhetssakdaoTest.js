@@ -191,7 +191,7 @@ test("get user article from db", done => {
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
     expect(data.length).toBe(2);
-    expect(data[0].overskrift).toBe("overskrift1");
+    expect(data[0].overskrift).toBe("overskrift");
     done();
   }
 
