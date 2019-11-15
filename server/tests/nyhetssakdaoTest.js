@@ -79,3 +79,28 @@ test("add article to db", done => {
     callback
   );
 });
+
+test("upvote one article in db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  nyhetssakdao.upvote(1, callback);
+});
+
+test("get one article from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe(1);
+    done();
+  }
+
+  nyhetssakdao.getOneId("Nyheter", 1, callback);
+});
