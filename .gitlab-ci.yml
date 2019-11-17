@@ -10,3 +10,4 @@ test:
   script:
     - npm install -g flow-bin
     - cd server && npm install && npm test
+    - cd ../client && npm install && npm test
