@@ -15,11 +15,12 @@ describe('Livefeed tests', () => {
     });
 
     it('after load', () => {
-
+        
         setTimeout(() => {
             let instance = LiveFeed.instane();
             expect(typeof instance).toEqual('object');
-            if (instance) except(instance.saker).toEqual([]);
+
+            if (instance) expect(instance.saker).toEqual([]);
         });
     });
 });
