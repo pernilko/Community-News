@@ -213,7 +213,7 @@ declare class express$Router<
     path: express$Path | $ReadOnlyArray<express$Path>,
     ...middleware: Array<express$Middleware<Req, Res>>
   ): this;
-  use(path: string, router: express$Router<Req, Res>): this;
+  use(path: string | function, router: express$Router<Req, Res>): this;
   handle(
     req: http$IncomingMessage<>,
     res: http$ServerResponse,

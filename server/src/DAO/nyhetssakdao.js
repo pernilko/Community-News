@@ -3,7 +3,7 @@
 const Dao = require("./dao.js");
 
 module.exports = class NyhetssakDao extends Dao {
-    getAll(callback) {
+    getAll(callback: function) {
         super.query(
             "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=TRUE ORDER BY rating DESC LIMIT 20",
             [],

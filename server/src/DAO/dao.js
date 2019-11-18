@@ -1,13 +1,15 @@
 // @flow
 
 module.exports = class Dao {
-  constructor(pool) {
+  pool: any = null;
+
+  constructor(pool: any) {
     // Dependency Injection
     this.pool = pool;
   }
 
-  query(sql: string, params: string, callback: void) {
-    this.pool.getConnection((err: string, connection: void) => {
+  query(sql: string, params: Array<mixed>, callback: function) {
+    this.pool.getConnection((err: Error, connection: function) => {
       console.log("dao: connected to database");
       if (err) {
         console.log("dao: error connecting");

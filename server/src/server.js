@@ -2,9 +2,9 @@
 
 let express = require("express");
 let mysql = require("mysql");
-let bodyParser: void = require("body-parser");
-let bcrypt: void = require("bcryptjs");
-let jwt: void = require("jsonwebtoken");
+let bodyParser: function = require("body-parser");
+let bcrypt: function = require("bcryptjs");
+let jwt: function = require("jsonwebtoken");
 let fs = require("fs");
 let app = express();
 let server = app.listen(8080, () => console.log("Listening on port 8080"));
