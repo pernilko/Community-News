@@ -11,7 +11,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    getOneId(kategori: string, id: string, callback: void) {
+    getOneId(kategori: string, id: number, callback: function) {
         super.query(
             "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE kategori=? AND saksId=?",
             [kategori, id],
@@ -19,7 +19,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    getKategori(kategori: string, callback: void) {
+    getKategori(kategori: string, callback: function) {
         super.query(
             "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=FALSE AND kategori=? ORDER BY rating DESC",
             [kategori],
@@ -27,7 +27,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    createOne(json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: Boolean, rating: number, brukerId: number}, callback: void) {
+    createOne(json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: boolean, rating: number, brukerId: number}, callback: function) {
         super.query(
             "INSERT INTO NYHETSSAK (overskrift, innhold, tidspunkt, bilde, kategori, viktighet, rating, brukerId) VALUES (?, ?, NOW(), ?, ?, ?, 0, ?)",
             [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet, json.brukerId],
@@ -35,7 +35,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    deleteOne(id: string, callback: void) {
+    deleteOne(id: number, callback: function) {
         super.query(
             "DELETE FROM NYHETSSAK WHERE NYHETSSAK.saksId=?",
             [id],
@@ -43,7 +43,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    upvote(id: string, callback: void) {
+    upvote(id: number, callback: function) {
         super.query(
             "UPDATE NYHETSSAK SET RATING = RATING + 1 WHERE NYHETSSAK.saksId=?",
             [id],
@@ -51,7 +51,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    downvote(id: string, callback: void) {
+    downvote(id: number, callback: function) {
         super.query(
             "UPDATE NYHETSSAK SET RATING = RATING - 1 WHERE NYHETSSAK.saksId=?",
             [id],
@@ -59,7 +59,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    getLivefeed(callback: void) {
+    getLivefeed(callback: function) {
         super.query(
             "SELECT overskrift, tidspunkt FROM NYHETSSAK WHERE NYHETSSAK.viktighet=0 ORDER BY NYHETSSAK.tidspunkt DESC LIMIT 5",
             [],
@@ -67,7 +67,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    updateSak(id: number, json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: Boolean, id: number}, callback: void) {
+    updateSak(id: number, json: {overskrift: string, innhold: string, bilde: string, kategori: string, viktighet: boolean, id: number}, callback: function) {
         super.query(
             "UPDATE NYHETSSAK SET NYHETSSAK.overskrift=?, NYHETSSAK.innhold=?, NYHETSSAK.bilde=?, NYHETSSAK.tidspunkt=NOW(), NYHETSSAK.kategori=?, NYHETSSAK.viktighet=? WHERE NYHETSSAK.saksId = ?",
             [json.overskrift, json.innhold, json.bilde, json.kategori, json.viktighet, id],
@@ -75,7 +75,7 @@ module.exports = class NyhetssakDao extends Dao {
         );
     }
 
-    getSakerBruker(id: string, callback: void) {
+    getSakerBruker(id: number, callback: function) {
         super.query(
             "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE NYHETSSAK.brukerId=? ORDER BY rating DESC",
             [id],

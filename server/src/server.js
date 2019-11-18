@@ -42,7 +42,7 @@ app.use(function(req, res, next) {
 });
 
 app.post("/login", (req: {body: {brukernavn: string, passord: string}}, res) => {
-	pool.getConnection((err, connection) => {
+	pool.getConnection((err, connection: function) => {
 		if (err) {
 			console.log("Feil ved kobling til databasen");
 			res.json({ error: "feil ved oppkobling" });
@@ -83,7 +83,7 @@ app.post("/registrer", (req, res) => {
 	console.log("Fikk POST-request fra klienten");
 	//console.log("Brukernavn: " + req.body.brukernavn);
 	//console.log("Passord: " + req.body.passord);
-	pool.getConnection((err, connection) => {
+	pool.getConnection((err, connection: function) => {
 		if (err) {
 			console.log("Feil ved oppkobling");
 			res.json({ error: "feil ved oppkobling" });
@@ -166,7 +166,7 @@ app.post("/nyhetssaker", (req, res) => {
 
 app.delete("/nyhetssaker/:saksId/", (req, res) => {
 	console.log("nyhetssaker/: Fikk DELETE-request fra klienten");
-    pool.getConnection((err, connection) => {
+    pool.getConnection((err, connection: function) => {
         console.log("Connected to database");
         if (err) {
             console.log("Feil ved kobling til databasen");
