@@ -1,5 +1,4 @@
 // @flow
-/* eslint eqeqeq: "off" */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 

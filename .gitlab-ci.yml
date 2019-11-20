@@ -10,3 +10,4 @@ test:
   script:
     - npm install -g flow-bin
     - cd server && npm install && npm test && rm node_modules/bcryptjs/src/bower.json && flow check src
+    - cd ../client && npm install && npm test && flow check src

@@ -1,3 +1,5 @@
+// @flow
+
 import * as React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
@@ -6,19 +8,19 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import { Component } from 'react-simplified';
 import {Alert} from '../widgets';
-import {nyhetssakService, kommentarService} from '../services';
+import {nyhetssakService, kommentarService, Kommentar, Nyhetssak, Bruker} from '../services';
 import {Navigation} from './staticComponents';
 import { createHashHistory } from 'history';
 
 const history = createHashHistory();
 
 export class Sak extends Component<{ match: { params: { id: number, kategori: string } } }> {
-  nick = '';
-  kommentar = '';
-  sak = null;
+  nick: string = '';
+  kommentar: string = '';
+  sak: Nyhetssak | any = null;
   kommentarer: Kommentar[] = [];
-  inn_bruker = null;
-  brukerId = 0;
+  inn_bruker: Bruker | any = null;
+  brukerId: number = 0;
 
   render() {
     if (this.sak) {
@@ -28,7 +30,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Form.Row>
     <Button variant="danger" onClick={this.delete}>Slett nyhetsartikkel</Button>
     <Nav.Link href={"#/rediger/"+this.props.match.params.kategori+"/"+this.props.match.params.id}>
-    <Button variant="success" onClick={this.edit}>Rediger nyhetsartikkel</Button>
+    <Button variant="success">Rediger nyhetsartikkel</Button>
     </Nav.Link>
     </Form.Row>
     <Card className="bg-light text-black" className="mx-auto w-75">
@@ -166,7 +168,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       .then(kommentarer => (this.kommentarer = kommentarer))
       .catch((error: Error) => Alert.danger(error.message));
     
-    this.inn_bruker = Navigation.instance().inn_bruker;
+    let nav: any = Navigation.instance();
+    this.inn_bruker = nav.inn_bruker;
   }
 
   add_b() {
@@ -176,7 +179,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       .catch((error: Error) => Alert.danger(error.message));
     
     this.kommentar = "";
-    Sak.instance().mounted();
+    let s: any = Sak.instance()
+    s.mounted();
   }
 
   add() {
@@ -187,7 +191,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     
     this.nick = "";
     this.kommentar = "";
-    Sak.instance().mounted();
+    let s: any = Sak.instance();
+    s.mounted();
   }
 
   delete() {
@@ -206,7 +211,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       .then(Alert.info("Saken er upvotet!"))
       .catch((error: Error) => Alert.danger(error.message));
     
-    document.getElementById('upvote').disabled = 'disabled';
+    let d: any = document.getElementById('upvote');
+    d.disabled = 'disabled';
   }
 
   downvote() {
@@ -215,16 +221,18 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       .then(Alert.info("Saken er downvotet!"))
       .catch((error: Error) => Alert.danger(error.message));
     
-    document.getElementById('downvote').disabled = 'disabled';
+    let d: any = document.getElementById('downvote');
+    d.disabled = 'disabled';
   }
 
-  del_comment(kommId) {
+  del_comment(kommId: number) {
     kommentarService 
       .deleteKommentar(kommId)
       .then(this.mounted())
       .then(Alert.danger("Kommentar slettet"))
       .catch((error: Error) => Alert.danger(error.message));
     
-    Sak.instance().mounted();
+    let s: any = Sak.instance();
+    s.mounted();
   }
 }

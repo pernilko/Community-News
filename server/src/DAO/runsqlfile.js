@@ -4,7 +4,6 @@ var mysql = require("mysql");
 var fs = require("fs");
 var path = require("path");
 
-
 module.exports = function run(filename: string, pool: function, done: function) {
   console.log("runsqlfile: reading file " + filename);
   let sql = fs.readFileSync(path.join(__dirname, filename), "utf8");

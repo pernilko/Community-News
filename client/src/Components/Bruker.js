@@ -1,3 +1,5 @@
+// @flow
+
 import * as React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -10,9 +12,9 @@ import { createHashHistory } from 'history';
 const history = createHashHistory();
 
 export class Login extends Component {
-  brukernavn = '';
-  passord = '';
-  inn_bruker = null;
+  brukernavn: string = '';
+  passord: string = '';
+  inn_bruker: Bruker | any = null;
 
   render() {
     return <>
@@ -42,20 +44,25 @@ export class Login extends Component {
   }
 
   logg_in() {
+    let token: string;
     brukerService
       .login(this.brukernavn, this.passord)
       .then(json => {
-    	  localStorage.token = json.jwt;
+        token = json.jwt;
+        localStorage.setItem("token", json.jwt);
     	  //console.log(JSON.stringify(json));
         brukerService
           .getOne(this.brukernavn)
-          .then(json => Navigation.instance().mounted(new Bruker(json.brukerId, json.brukernavn)))
+          .then(json => {
+            let nav: any = Navigation.instance();
+            nav.mounted(new Bruker(json.brukerId, json.brukernavn))
+          })
           .catch((error: Error) => Alert.danger(error.message));
       })
       .then(() => {
         brukerService
-          .postToken(this.brukernavn)
-          .then(json => localStorage.token = json.jwt)
+          .postToken(this.brukernavn, token)
+          .then(json => localStorage.setItem("token", json.jwt))
           .catch((error: Error) => Alert.danger(error.message));
      })
      .then(history.push("/"))

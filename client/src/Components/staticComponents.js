@@ -1,3 +1,5 @@
+// @flow
+
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
@@ -6,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import {Alert} from '../widgets';
-import {nyhetssakService} from '../services';
+import {Nyhetssak, nyhetssakService, Bruker} from '../services';
 import socketIOClient from 'socket.io-client';
 import { createHashHistory } from 'history';
 
@@ -30,7 +32,7 @@ export class LiveFeed extends Component {
         <div class="ticker">
           {this.saker.map(sak => (
             <div>
-              <LiveFeedElement title={sak.overskrift} time={sak.tidspunkt}/>
+              <LiveFeedElement overskrift={sak.overskrift} tidspunkt={sak.tidspunkt}/>
             </div> 
           ))}
         </div>
@@ -53,18 +55,19 @@ export class LiveFeed extends Component {
   }*/
 }
 
-class LiveFeedElement extends Component {
+export class LiveFeedElement extends Component<{overskrift: string, tidspunkt: string}> {
+
   render() {
     return (
       <div>
-      <p class="title">{this.props.title} | {this.props.time.substring(0, 10) + " " + this.props.time.substring(11, 16)}</p>
+      <p class="title">{this.props.overskrift} | {this.props.tidspunkt.substring(0, 10) + " " + this.props.tidspunkt.substring(11, 16)}</p>
       </div>
     )
   }
 }
 
 export class Navigation extends Component {
-  inn_bruker = null;
+  inn_bruker: Bruker | any = null;
 
   render() {
     console.log(this.inn_bruker);
@@ -132,7 +135,7 @@ export class Navigation extends Component {
     }
   }
 
-  mounted(ny_bruker) {
+  mounted(ny_bruker: Bruker | any) {
     this.inn_bruker = ny_bruker;
   }
 

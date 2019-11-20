@@ -1,9 +1,11 @@
+// @flow
+
 import * as React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Component} from 'react-simplified';
 import {Alert} from '../widgets';
-import {nyhetssakService} from '../services';
+import {Nyhetssak, nyhetssakService, Bruker} from '../services';
 import {Navigation} from './staticComponents';
 import {Sak} from './Sak';
 import { createHashHistory } from 'history';
@@ -13,7 +15,7 @@ const history = createHashHistory();
 let kategorier = ["Nyheter", "Sport", "Kultur", "Annet"];
 
 export class EditSak extends Component<{ match: { params: { id: number, kategori: string } } }> {
-  sak = null;
+  sak: Nyhetssak | any = null;
 
   render() {
     if (this.sak) {
@@ -100,13 +102,13 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
 }
 
 export class AddSak extends Component {
-  overskrift = '';
-  innhold = '';
-  bilde = '';
-  kategori = kategorier[0];
-  viktighet = false;
-  sak = null;
-  inn_bruker = null;
+  overskrift: string = '';
+  innhold: string = '';
+  bilde: string = '';
+  kategori: string = kategorier[0];
+  viktighet: boolean = false;
+  sak: Nyhetssak | any = null;
+  inn_bruker: Bruker | any = null;
 
   render() {
     return <>
@@ -176,6 +178,7 @@ export class AddSak extends Component {
   }
 
   mounted() {
-    this.inn_bruker = Navigation.instance().inn_bruker;
+    let nav: any = Navigation.instance()
+    this.inn_bruker = nav.inn_bruker;
   }
 }

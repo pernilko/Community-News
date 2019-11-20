@@ -17,7 +17,7 @@ describe('Livefeed tests', () => {
     it('after load', () => {
         
         setTimeout(() => {
-            let instance = LiveFeed.instane();
+            let instance = LiveFeed.instance();
             expect(typeof instance).toEqual('object');
 
             if (instance) expect(instance.saker).toEqual([]);
