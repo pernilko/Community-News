@@ -1,18 +1,18 @@
 // @flow
 
-let express: void = require("express");
-let axios: void = require("axios");
-let socketIo: void = require("socket.io");
+let express: function = require("express");
+let axios: function = require("axios");
+let socketIo: function = require("socket.io");
 
 
-let app: void = express();
-let server: void = app.listen(4001, () => console.log("Listening on port 4001"));
+let app: function = express();
+let server: function = app.listen(4001, () => console.log("Listening on port 4001"));
 
 //axios.get('http://localhost:8080/livefeed').then(res => console.log(res.data));
 
-let io: void = socketIo(server);
+let io: function = socketIo(server);
 
-let interval1: number;
+let interval1: IntervalID;
 io.on("connection", socket => {
     console.log("Ny klient tilkoblet");
     if (interval1) {
