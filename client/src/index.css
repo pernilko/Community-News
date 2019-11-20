@@ -21,6 +21,10 @@
     -webkit-animation-timing-function: linear;
 }
 
+.ticker:hover {
+    -webkit-animation-play-state: paused;
+}
+
 .grid-container {
     display: grid;
     grid-template-areas:
@@ -93,4 +97,9 @@ img.resize {
 
 #downvote:focus {     
     background-color: green;
+}
+
+#innhold {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;
 }

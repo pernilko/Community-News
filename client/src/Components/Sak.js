@@ -36,8 +36,9 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} width="945" height="400"/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
-           <Card.Text>{this.sak.innhold}</Card.Text>
+           <Card.Text id="innhold">{this.sak.innhold}</Card.Text>
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
+      <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
       <Form.Row>
       <Button id="upvote" variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
       <Button id="downvote" variant="danger" onClick={this.downvote} style={{width: "100px"}}>Downvote</Button>
@@ -71,8 +72,9 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} width="945" height="400"/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
-           <Card.Text>{this.sak.innhold}</Card.Text>
+           <Card.Text id="innhold">{this.sak.innhold}</Card.Text>
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
+      <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
       <Form.Row>
       <Button id="upvote" variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
       <Button id="downvote" variant="danger" onClick={this.downvote} style={{width: "100px"}}>Downvote</Button>
@@ -107,8 +109,9 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} width="945" height="400"/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
-           <Card.Text>{this.sak.innhold}</Card.Text>
+           <Card.Text id="innhold">{this.sak.innhold}</Card.Text>
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
+      <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
       <Form.Row>
       <Button id="upvote" variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
       <Button id="downvote" variant="danger" onClick={this.downvote} style={{width: "100px"}}>Downvote</Button>
@@ -158,6 +161,13 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       .getSakKatId(this.props.match.params.kategori, this.props.match.params.id)
       .then(sak => {
         this.sak = sak;
+        let d: any = document.getElementById('rating');
+        if (this.sak.rating < 0) {
+          d.style.color = "#8a0811";
+        }
+        else {
+          d.style.color = "#035c1a";
+        }
         this.brukerId = this.sak.brukerId;
       })
       .catch((error: Error) => console.log(""));
@@ -208,9 +218,12 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
   upvote() {
     nyhetssakService
       .upvote(this.props.match.params.id)
-      .then(Alert.info("Saken er upvotet!"))
+      .then(() => {
+        let s: any = Sak.instance();
+        s.mounted();
+      })
       .catch((error: Error) => Alert.danger(error.message));
-    
+
     let d: any = document.getElementById('upvote');
     d.disabled = 'disabled';
   }
@@ -218,7 +231,10 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
   downvote() {
     nyhetssakService
       .downvote(this.props.match.params.id)
-      .then(Alert.info("Saken er downvotet!"))
+      .then(() => {
+        let s: any = Sak.instance();
+        s.mounted();
+      })
       .catch((error: Error) => Alert.danger(error.message));
     
     let d: any = document.getElementById('downvote');

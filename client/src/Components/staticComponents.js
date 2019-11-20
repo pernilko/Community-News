@@ -32,7 +32,7 @@ export class LiveFeed extends Component {
         <div class="ticker">
           {this.saker.map(sak => (
             <div>
-              <LiveFeedElement overskrift={sak.overskrift} tidspunkt={sak.tidspunkt}/>
+              <LiveFeedElement overskrift={sak.overskrift} tidspunkt={sak.tidspunkt} id={sak.saksId} kategori={sak.kategori}/>
             </div> 
           ))}
         </div>
@@ -55,12 +55,12 @@ export class LiveFeed extends Component {
   }*/
 }
 
-export class LiveFeedElement extends Component<{overskrift: string, tidspunkt: string}> {
+export class LiveFeedElement extends Component<{overskrift: string, tidspunkt: string, id: number, kategori: string}> {
 
   render() {
     return (
       <div>
-      <p class="title">{this.props.overskrift} | {this.props.tidspunkt.substring(0, 10) + " " + this.props.tidspunkt.substring(11, 16)}</p>
+      <a href={"#/kategori"+"/"+this.props.kategori+"/"+this.props.id}><p class="title">{this.props.overskrift} | {this.props.tidspunkt.substring(0, 10) + " " + this.props.tidspunkt.substring(11, 16)}</p></a>
       </div>
     )
   }

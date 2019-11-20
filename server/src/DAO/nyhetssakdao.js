@@ -61,7 +61,7 @@ module.exports = class NyhetssakDao extends Dao {
 
     getLivefeed(callback: function) {
         super.query(
-            "SELECT overskrift, tidspunkt FROM NYHETSSAK WHERE NYHETSSAK.viktighet=0 ORDER BY NYHETSSAK.tidspunkt DESC LIMIT 5",
+            "SELECT overskrift, tidspunkt, saksId, kategori FROM NYHETSSAK WHERE NYHETSSAK.viktighet=0 ORDER BY NYHETSSAK.tidspunkt DESC LIMIT 5",
             [],
             callback
         );
