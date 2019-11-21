@@ -70,7 +70,7 @@ export class Navigation extends Component {
   inn_bruker: Bruker | any = null;
 
   render() {
-    console.log(this.inn_bruker);
+    //console.log(this.inn_bruker);
     if (this.inn_bruker) {
       return <>
     <Navbar sticky="top" bg="dark" expand="lg" variant="dark">
@@ -147,10 +147,10 @@ export class Navigation extends Component {
 }
 
 export class MineSaker extends Component<{ match: { params: { id: number } } }> {
-  saker: Nyhetssak[] = [];
+  saker: Nyhetssak[] = [];  
 
   render() {
-    console.log(this.saker);
+    //console.log(this.saker);
     if (this.saker) {
       return <>
       {this.saker.map(sak => (
@@ -160,6 +160,7 @@ export class MineSaker extends Component<{ match: { params: { id: number } } }> 
   <img src={sak.bilde} width="945" height="400"/>
   <Card.Body>
     <Card.Title>{sak.overskrift}</Card.Title>
+    <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
   </Card.Body>
 </Card>
 </a>

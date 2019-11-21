@@ -11,6 +11,18 @@ export class Nyhetssak {
   viktighet: boolean;
   rating: number;
   brukerId: number;
+
+  constructor(saksId: number, overskrift: string, innhold: string, tidspunkt: string, bilde: string, kategori: string, viktighet: boolean, rating: number, brukerId: number) {
+      this.saksId = saksId;
+      this.overskrift = overskrift;
+      this.innhold = innhold;
+      this.tidspunkt = tidspunkt;
+      this.bilde = bilde;
+      this.kategori = kategori;
+      this.viktighet = viktighet;
+      this.rating = rating;
+      this.brukerId = brukerId;
+  }
 }
 
 class NyhetssakService {

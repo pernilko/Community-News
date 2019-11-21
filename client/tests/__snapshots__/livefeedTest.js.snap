@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Livefeed tests after load 1`] = `
+"<div class=\\"wrapper\\">
+  <div class=\\"ticker\\">
+    <div>
+      <LiveFeedElement overskrift=\\"Overskrift\\" tidspunkt=\\"2019-10-11 02-20\\" id={1} kategori=\\"Sport\\" />
+    </div>
+    <div>
+      <LiveFeedElement overskrift=\\"Overskrift2\\" tidspunkt=\\"2019-10-11 02-20\\" id={2} kategori=\\"Sport\\" />
+    </div>
+  </div>
+</div>"
+`;

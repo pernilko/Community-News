@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MineSaker tests after load 1`] = `
+"<Fragment>
+  <div className=\\"mx-auto w-75\\">
+    <a href=\\"#/kategori/Sport/1\\">
+      <Card body={false}>
+        <img src=\\"bilde.jpg\\" width=\\"945\\" height=\\"400\\" />
+        <CardBody>
+          <CardTitle>
+            Overskrift
+          </CardTitle>
+          <CardText>
+            <p id=\\"tid\\">
+              Sist oppdatert: 
+              2019-10-11 02-20
+            </p>
+          </CardText>
+        </CardBody>
+      </Card>
+    </a>
+  </div>
+</Fragment>"
+`;
+
+exports[`MineSaker tests initially 1`] = `"<Fragment />"`;
