@@ -82,4 +82,12 @@ module.exports = class NyhetssakDao extends Dao {
             callback
         );
     }
+
+    getForfatter(id: number, callback: function) {
+        super.query(
+            "SELECT brukernavn FROM BRUKER JOIN NYHETSSAK ON (BRUKER.brukerId = NYHETSSAK.brukerId) WHERE NYHETSSAK.saksId=?",
+            [id],
+            callback
+        );
+    }
 };

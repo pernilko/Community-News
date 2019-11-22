@@ -73,6 +73,10 @@ img.resize {
     color: grey;
 }
 
+#forfatter {
+    color: black;
+}
+
 #nick {
     color: #34b7eb;
     text-decoration: underline;

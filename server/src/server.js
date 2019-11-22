@@ -263,3 +263,11 @@ app.get("/nyhetssaker/kategorier/MineSaker/:brukerId", (req, res) => {
 		res.json(data);
 	});
 });
+
+app.get("/nyhetssaker/kategori/brukernavn/:id", (req, res) => {
+	console.log("/nyhetssaker/brukernavn/:id: Fikk GET-request fra klient");
+	nyhetssakDao.getForfatter(req.params.id, (status, data) => {
+		res.status(status);
+		res.json(data);
+	});
+});

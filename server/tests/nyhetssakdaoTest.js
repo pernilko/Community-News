@@ -221,3 +221,16 @@ test("get deleted article from db", done => {
 
   nyhetssakdao.getKategori("Sport", callback);
 }, 30000);
+
+test("get author from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].forfatter).toBe("bruker");
+    done();
+  }
+
+  nyhetssakdao.getForfatter(1, callback);
+}, 30000);

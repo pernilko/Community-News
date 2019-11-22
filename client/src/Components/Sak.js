@@ -21,6 +21,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
   kommentarer: Kommentar[] = [];
   inn_bruker: Bruker | any = null;
   brukerId: number = 0;
+  forfatter: string = '';
 
   render() {
     if (this.sak) {
@@ -36,6 +37,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} width="945" height="400"/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
+           <Card.Text id="forfatter">Forfatter: {this.forfatter}</Card.Text>
+           <Card.Text id="forfatter">Kategori: {this.props.match.params.kategori}</Card.Text>
            <Card.Text id="innhold">{this.sak.innhold}</Card.Text>
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
       <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
@@ -72,6 +75,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} width="945" height="400"/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
+           <Card.Text id="forfatter">Forfatter: {this.forfatter}</Card.Text>
+           <Card.Text id="forfatter">Kategori: {this.props.match.params.kategori}</Card.Text>
            <Card.Text id="innhold">{this.sak.innhold}</Card.Text>
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
       <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
@@ -109,6 +114,8 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card className="bg-light text-black" className="mx-auto w-75">
         <Card.Img src={this.sak.bilde} width="945" height="400"/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
+           <Card.Text id="forfatter">Forfatter: {this.forfatter}</Card.Text>
+           <Card.Text id="forfatter">Kategori: {this.props.match.params.kategori}</Card.Text>
            <Card.Text id="innhold">{this.sak.innhold}</Card.Text>
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
       <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
@@ -171,6 +178,11 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
         this.brukerId = this.sak.brukerId;
       })
       .catch((error: Error) => console.log(""));
+    
+    nyhetssakService
+      .getForfatter(this.props.match.params.id)
+      .then(res => this.forfatter = res[0].brukernavn)
+      .catch((error: Error) => Alert.danger(error.message));
     
     
     kommentarService
