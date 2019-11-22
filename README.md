@@ -55,7 +55,10 @@ Applikasjonen kan nå åpnes i [http://localhost:3000](http://localhost:3000). D
 
 ## Testing av klient og server, samt testing av typesjekking
 Jeg har implementert en continuous integration (CI) løsning på NTNU's GitLab server, hvor det kjøres både servertester og klienttester, samt typesjekking i `server`, `socket`, og `client`.
-Hvis dere ønsker å kjøre disse testene lokalt, kan det gjøres på følgende måte:
+Hvis dere ønsker å kjøre disse testene lokalt, kan det gjøres som beskrevet nedenfor for hver av de ulike mappene. Installer flow først:
+```
+npm install -g flow-bin
+```
 
 ### Server
 
