@@ -67,8 +67,10 @@ Bytt ut informasjonen fra og med linje 8 til og med linje 16 med din egen inform
 
 Skriv følgende i terminalen i `server`:
 ```
-npm test && flow check src
+- cd server && npm install && npm test && rm node_modules/bcryptjs/src/bower.json && flow check src
 ```
+Som dere kan se, så sletter jeg en json fil før jeg tester typesjekkinga. Dette gjøres siden de(n) som har skrevet bcryptjs modulen (som jeg bruker for å kryptere passord i databasen) har brukt kommentarer i bower.json, noe som
+bryter med syntaksen til .json fil, og det er noe Flow reagerer på. (Merk at selve fjerningen av denne filen ikke påvirker systemet).
 
 ### Socket
 Har ingen tester i `socket`, men dere kan teste typesjekkinga på følgende måte:
