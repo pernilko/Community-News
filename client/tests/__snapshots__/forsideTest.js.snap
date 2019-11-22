@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Livefeed tests after load 1`] = `
+"<div class=\\"grid-container\\">
+  <div className=\\"mx-auto w-75\\">
+    <a href=\\"#/kategori/Sport/1\\">
+      <Card id=\\"article\\" body={false}>
+        <CardImg src=\\"bilde.jpg\\" width=\\"945\\" height=\\"400\\" variant={{...}} />
+        <CardBody>
+          <CardTitle>
+            <h2 id=\\"overskrift\\">
+              Overskrift
+            </h2>
+          </CardTitle>
+          <CardText>
+            <p id=\\"tid\\">
+              Sist oppdatert: 
+              2019-10-11 02-20
+            </p>
+          </CardText>
+        </CardBody>
+      </Card>
+    </a>
+  </div>
+  <div className=\\"mx-auto w-75\\">
+    <a href=\\"#/kategori/Sport/2\\">
+      <Card id=\\"article\\" body={false}>
+        <CardImg src=\\"bilde.jpg\\" width=\\"945\\" height=\\"400\\" variant={{...}} />
+        <CardBody>
+          <CardTitle>
+            <h2 id=\\"overskrift\\">
+              Overskrift2
+            </h2>
+          </CardTitle>
+          <CardText>
+            <p id=\\"tid\\">
+              Sist oppdatert: 
+              2019-10-11 02-20
+            </p>
+          </CardText>
+        </CardBody>
+      </Card>
+    </a>
+  </div>
+</div>"
+`;
