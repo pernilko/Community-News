@@ -26,6 +26,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
     <Form.Control 
+    required
     type="text" 
     value={this.sak.overskrift}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.overskrift = event.target.value)}
@@ -33,7 +34,10 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Innhold</Form.Label>
-    <Form.Control as="textarea" rows="9"
+    <Form.Control 
+    required
+    as="textarea"
+    rows="9"
     type="text" 
     value={this.sak.innhold}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.sak.innhold = event.target.value)}
@@ -42,6 +46,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Bilde</Form.Label>
     <Form.Control
+    required
     type="text" 
     placeholder="Lim inn URL"
     value={this.sak.bilde}
@@ -116,7 +121,8 @@ export class AddSak extends Component {
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
-    <Form.Control 
+    <Form.Control
+    required
     type="text" 
     value={this.overskrift}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.overskrift = event.target.value)}
@@ -125,6 +131,7 @@ export class AddSak extends Component {
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Innhold</Form.Label>
     <Form.Control as="textarea" rows="9"
+    required
     type="text" 
     value={this.innhold}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.innhold = event.target.value)}
@@ -133,6 +140,7 @@ export class AddSak extends Component {
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Bilde</Form.Label>
     <Form.Control
+    required
     placeholder="Lim inn URL"
     type="text" 
     value={this.bilde}
@@ -158,7 +166,7 @@ export class AddSak extends Component {
     type="checkbox"
     value={this.viktighet}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.viktighet = event.target.checked)}
-    cheked={this.viktighet}
+    checked={this.viktighet}
     />
   </Form.Group>
   <Button variant="success" onClick={this.add}>Legg til nyhetsartikkel</Button>
@@ -168,6 +176,19 @@ export class AddSak extends Component {
   }
 
   add() {
+    if (this.overskrift == "") {
+      Alert.danger("Fyll ut overskrift");
+      return;
+    }
+    if (this.innhold == "") {
+      Alert.danger("Fyll ut innhold");
+      return;
+    }
+    if (this.bilde == "") {
+      Alert.danger("Legg inn bilde");
+      return;
+    }
+
     nyhetssakService
       .postSak(this.overskrift, this.innhold, this.bilde, this.kategori, this.viktighet, this.inn_bruker.brukerId)
       .then(() => {

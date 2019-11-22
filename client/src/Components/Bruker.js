@@ -44,6 +44,15 @@ export class Login extends Component {
   }
 
   logg_in() {
+    if (this.brukernavn == "") {
+      Alert.danger("Ugyldig brukernavn");
+      return;
+    }
+    if (this.passord == "") {
+      Alert.danger("Ugyldig passord");
+      return;
+    }
+
     let token: string;
     brukerService
       .login(this.brukernavn, this.passord)
@@ -101,6 +110,15 @@ export class Registrer extends Component {
   }
 
   register() {
+    if (this.brukernavn == "") {
+      Alert.danger("Ugyldig brukernavn");
+      return;
+    }
+    if (this.passord == "") {
+      Alert.danger("Ugyldig passord");
+      return;
+    }
+
     brukerService
       .registrer(this.brukernavn, this.passord)
       .then(history.push("/"))
