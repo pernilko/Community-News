@@ -228,7 +228,7 @@ test("get author from db", done => {
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
     expect(data.length).toBe(1);
-    expect(data[0].forfatter).toBe("bruker");
+    expect(data[0].brukernavn).toBe("bruker");
     done();
   }
 
