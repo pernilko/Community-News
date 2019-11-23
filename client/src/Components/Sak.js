@@ -29,7 +29,9 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
         if (this.inn_bruker.brukerId == this.brukerId) {
           return <>
     <Form.Row>
+    <Nav.Link>
     <Button variant="danger" onClick={this.delete}>Slett nyhetsartikkel</Button>
+    </Nav.Link>
     <Nav.Link href={"#/rediger/"+this.props.match.params.kategori+"/"+this.props.match.params.id}>
     <Button variant="success">Rediger nyhetsartikkel</Button>
     </Nav.Link>
@@ -43,7 +45,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
       <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
       <Form.Row>
-      <Button id="upvote" variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
+      <Button id="upvote" variant="primary" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
       <Button id="downvote" variant="danger" onClick={this.downvote} style={{width: "100px"}}>Downvote</Button>
       </Form.Row>
 </Card>
@@ -81,7 +83,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
       <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
       <Form.Row>
-      <Button id="upvote" variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
+      <Button id="upvote" variant="primary" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
       <Button id="downvote" variant="danger" onClick={this.downvote} style={{width: "100px"}}>Downvote</Button>
       </Form.Row>
 </Card>
@@ -120,7 +122,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       <Card.Text id="tid">Sist oppdatert: {this.sak.tidspunkt.substring(0, 10) + " " + this.sak.tidspunkt.substring(11, 16)}</Card.Text>
       <Card.Text>Rating: <p id="rating"><b>{this.sak.rating}</b></p></Card.Text>
       <Form.Row>
-      <Button id="upvote" variant="warning" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
+      <Button id="upvote" variant="primary" onClick={this.upvote} style={{width: "100px"}}>Upvote</Button>
       <Button id="downvote" variant="danger" onClick={this.downvote} style={{width: "100px"}}>Downvote</Button>
       </Form.Row>
 </Card>
@@ -182,7 +184,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     nyhetssakService
       .getForfatter(this.props.match.params.id)
       .then(res => this.forfatter = res[0].brukernavn)
-      .catch((error: Error) => Alert.danger(error.message));
+      .catch((error: Error) => console.log(""));
     
     
     kommentarService

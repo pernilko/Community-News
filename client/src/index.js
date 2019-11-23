@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { HashRouter, Route} from 'react-router-dom';
 import {LiveFeed, Navigation} from './Components/staticComponents';
-import {Forside, Sakliste, MineSaker} from './Components/Views';
+import {Forside, Sakliste, MineSaker, SokeSaker} from './Components/Views';
 import {EditSak, AddSak} from './Components/Forms';
 import {Login, Registrer} from './Components/Bruker';
 import {Sak} from './Components/Sak';
@@ -30,6 +30,7 @@ if (root)
         <Route path="/login" component={Login}/>
         <Route path="/registrer" component={Registrer}/>
         <Route exact path="/kategori/MineSaker/:id" component={MineSaker}/>
+        <Route exact path="/søkeSak/:soketekst" component={SokeSaker}/>
       </div>
     </HashRouter>,
     root

@@ -89,7 +89,7 @@ export class Registrer extends Component {
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Brukernavn</Form.Label>
-    <Form.Control 
+    <Form.Control
     type="text" 
     value={this.brukernavn}
     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.brukernavn = event.target.value)}

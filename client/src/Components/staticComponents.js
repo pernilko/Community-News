@@ -1,6 +1,8 @@
 // @flow
 
 import Navbar from 'react-bootstrap/Navbar';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -68,13 +70,17 @@ export class LiveFeedElement extends Component<{overskrift: string, tidspunkt: s
 
 export class Navigation extends Component {
   inn_bruker: Bruker | any = null;
+  soketekst: string = "";
 
   render() {
     //console.log(this.inn_bruker);
     if (this.inn_bruker) {
       return <>
     <Navbar sticky="top" bg="dark" expand="lg" variant="dark">
-  <Navbar.Brand href="#">
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+    <Nav.Link href="#/">
       <img
         src="bilder/logo.jpg"
         width="30"
@@ -82,17 +88,18 @@ export class Navigation extends Component {
         className="d-inline-block align-top"
         alt="Community News"
       />
-  </Navbar.Brand>
-  <Navbar.Brand href="#/">Communtiy News</Navbar.Brand>
-  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-  <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
+  </Nav.Link>
+    <Nav.Link href="#/">Forside</Nav.Link>
     {kategorier.map(kategori => (
       <Nav.Link href={"/#kategori/"+kategori}>{kategori}</Nav.Link>
     ))}
     <Nav.Link href={"/#kategori/MineSaker/" + this.inn_bruker.brukerId}>Mine saker</Nav.Link>
     <Button variant="outline-success" href="#/addNews">Legg til nyhetsartikkel</Button>
     </Nav>
+    <Form inline>
+      <FormControl type="text" placeholder="Søk" className="mr-sm-2" value={this.soketekst} onChange = {(event: SyntheticInputEvent<HTMLInputElement>) => (this.soketekst = event.target.value)}/>
+      <Button variant="outline-success" href={"/#søkeSak/"+this.soketekst}>Søk</Button>
+    </Form>
   </Navbar.Collapse>
   <Navbar.Collapse className="justify-content-end">
   <Navbar.Text>
@@ -106,7 +113,10 @@ export class Navigation extends Component {
     else {
       return <>
     <Navbar sticky="top" bg="dark" expand="lg" variant="dark">
-  <Navbar.Brand href="#">
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+    <Nav.Link href="#/">
       <img
         src="bilder/logo.jpg"
         width="30"
@@ -114,16 +124,17 @@ export class Navigation extends Component {
         className="d-inline-block align-top"
         alt="Community News"
       />
-  </Navbar.Brand>
-  <Navbar.Brand href="#/">Communtiy News</Navbar.Brand>
-  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-  <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
+  </Nav.Link>
+    <Nav.Link href="#/">Forside</Nav.Link>
     {kategorier.map(kategori => (
       <Nav.Link href={"/#kategori/"+kategori}>{kategori}</Nav.Link>
     ))}
     </Nav>
   </Navbar.Collapse>
+  <Form inline>
+      <FormControl type="text" placeholder="Søk" className="mr-sm-2" value={this.soketekst} onChange = {(event: SyntheticInputEvent<HTMLInputElement>) => (this.soketekst = event.target.value)}/>
+      <Button variant="outline-success" href={"/#søkeSak/"+this.soketekst}>Søk</Button>
+    </Form>
   <Navbar.Collapse className="justify-content-end">
   <Navbar.Text>
       <Button id="button" variant="primary" href="/#login">Logg inn</Button>
@@ -143,42 +154,5 @@ export class Navigation extends Component {
     history.push("/");
     this.inn_bruker = null;
     Alert.danger("Nå er du logget ut.")
-  }
-}
-
-export class MineSaker extends Component<{ match: { params: { id: number } } }> {
-  saker: Nyhetssak[] = [];  
-
-  render() {
-    //console.log(this.saker);
-    if (this.saker) {
-      return <>
-      {this.saker.map(sak => (
-        <div className="mx-auto w-75">
-        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
-  <Card>
-  <img src={sak.bilde} width="945" height="400"/>
-  <Card.Body>
-    <Card.Title>{sak.overskrift}</Card.Title>
-    <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
-  </Card.Body>
-</Card>
-</a>
-</div>
-      ))}
-      </>
-    }
-    else {
-      return (
-        <div> Laster dine saker... </div>
-      )
-    }
-  }
-
-  mounted() {
-    nyhetssakService
-      .getSakBruker(this.props.match.params.id)
-      .then(saker => (this.saker = saker))
-      .catch((error: Error) => Alert.danger(error.message));
   }
 }

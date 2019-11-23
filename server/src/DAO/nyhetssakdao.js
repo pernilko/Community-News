@@ -90,4 +90,12 @@ module.exports = class NyhetssakDao extends Dao {
             callback
         );
     }
+
+    getSokSak(overskrift: string, callback: function) {
+        super.query(
+            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE overskrift LIKE ?",
+            ["%"+overskrift+"%"],
+            callback
+        );
+    }
 };

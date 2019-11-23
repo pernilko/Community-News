@@ -83,6 +83,10 @@ class NyhetssakService {
     getForfatter(id: number) {
         return axios.get<{brukernavn: string}>('http://localhost:8080/nyhetssaker/kategori/brukernavn/' + id).then(response => response.data);
     }
+
+    getSokSak(soketekst: string) {
+        return axios.get<Nyhetssak[]>('http://localhost:8080/nyhetssaker/kategori/sokeSak/' + soketekst).then(response => response.data);   
+    }
 }
 
 export let nyhetssakService = new NyhetssakService();

@@ -8,7 +8,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import CardGroup from 'react-bootstrap/CardGroup';
+import CardColumns from 'react-bootstrap/CardColumns';
 import ReactDOM from 'react-dom';
+import CardDeck from 'react-bootstrap/CardDeck';
 import * as React from 'react';
 import { Component, sharedComponentData } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
@@ -24,11 +26,12 @@ export class Forside extends Component {
     //let nysaker = saker.filter(sak => sak.viktighet == true);
     if (this.saker) {
       return <div class="grid-container">
+      <CardColumns>
       {this.saker.map(sak => (
         <div className="mx-auto w-75">
           <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
             <Card id="article">
-            <Card.Img src={sak.bilde} width="945" height="400"/>
+            <Card.Img src={sak.bilde} id="img"/>
             <Card.Body>
               <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
               <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
@@ -37,6 +40,7 @@ export class Forside extends Component {
           </a>
         </div>
       ))}
+      </CardColumns>
     </div>
     }
     else {
@@ -60,11 +64,12 @@ export class Sakliste extends Component<{ match: { params: { kategori: string } 
   render() {
     if (this.saker) {
       return <div class="grid-container">
+      <CardColumns>
       {this.saker.map(sak => (
         <div className="mx-auto w-75">
         <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
   <Card id="article">
-  <Card.Img src={sak.bilde} width="945" height="400"/>
+  <Card.Img src={sak.bilde} id="img"/>
   <Card.Body>
     <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
     <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
@@ -73,6 +78,7 @@ export class Sakliste extends Component<{ match: { params: { kategori: string } 
 </a>
 </div>
       ))}
+      </CardColumns>
     </div>
     }
     else {
@@ -97,11 +103,12 @@ export class MineSaker extends Component<{ match: { params: { id: number } } }> 
     console.log(this.saker);
     if (this.saker) {
       return <div class="grid-container">
+      <CardColumns>
       {this.saker.map(sak => (
         <div className="mx-auto w-75">
         <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
   <Card id="article">
-  <Card.Img src={sak.bilde} width="945" height="400"/>
+  <Card.Img src={sak.bilde} id="img"/>
   <Card.Body>
     <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
     <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
@@ -110,6 +117,7 @@ export class MineSaker extends Component<{ match: { params: { id: number } } }> 
 </a>
 </div>
       ))}
+      </CardColumns>
       </div>
     }
     else {
@@ -122,6 +130,45 @@ export class MineSaker extends Component<{ match: { params: { id: number } } }> 
   mounted() {
     nyhetssakService
       .getSakBruker(this.props.match.params.id)
+      .then(saker => (this.saker = saker))
+      .catch((error: Error) => Alert.danger(error.message));
+  }
+}
+
+export class SokeSaker extends Component<{ match: { params: { soketekst: string } } }> {
+  saker: Nyhetssak[] = [];
+
+  render() {
+    console.log(this.saker);
+    if (this.saker) {
+      return <div class="grid-container">
+      <CardColumns>
+      {this.saker.map(sak => (
+        <div className="mx-auto w-75">
+        <a href={"#/kategori"+"/"+sak.kategori+"/"+sak.saksId}>
+  <Card id="article">
+  <Card.Img src={sak.bilde} id="img"/>
+  <Card.Body>
+    <Card.Title><h2 id="overskrift">{sak.overskrift}</h2></Card.Title>
+    <Card.Text><p id="tid">Sist oppdatert: {sak.tidspunkt.substring(0,10) + " " + sak.tidspunkt.substring(11, 16)}</p></Card.Text>
+  </Card.Body>
+</Card>
+</a>
+</div>
+      ))}
+      </CardColumns>
+      </div>
+    }
+    else {
+      return (
+        <div> Laster dine saker... </div>
+      )
+    }
+  }
+
+  mounted() {
+    nyhetssakService
+      .getSokSak(this.props.match.params.soketekst)
       .then(saker => (this.saker = saker))
       .catch((error: Error) => Alert.danger(error.message));
   }

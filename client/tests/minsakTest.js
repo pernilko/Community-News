@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import {MineSaker} from '../src/Components/staticComponents';
+import {MineSaker} from '../src/Components/Views';
 import { shallow, mount } from 'enzyme';
 import { Nyhetssak, nyhetssakService } from '../src/services.js';
 

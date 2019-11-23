@@ -271,3 +271,11 @@ app.get("/nyhetssaker/kategori/brukernavn/:id", (req, res) => {
 		res.json(data);
 	});
 });
+
+app.get("/nyhetssaker/kategori/sokeSak/:overskrift", (req, res) => {
+	console.log("/nyhetssaker/kategori/sokeSak/:overskrift: Fikk GET-request fra klient");
+	nyhetssakDao.getSokSak(req.params.overskrift, (status, data) => {
+		res.status(status);
+		res.json(data);
+	});
+});

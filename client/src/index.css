@@ -25,6 +25,10 @@
     -webkit-animation-play-state: paused;
 }
 
+#label {
+    color: white;
+}
+
 .grid-container {
     display: grid;
     grid-template-areas:
@@ -54,11 +58,6 @@
     100% {
         margin-left: -100%;
     }
-}
-
-img.resize {
-    max-width:50%;
-    max-height:50%;
 }
 
 #button {
@@ -91,11 +90,16 @@ img.resize {
     margin-bottom: 20px;
 }
 
+#header {
+    font-size: 100px;
+}
+
 #upvote:focus {     
     background-color: green;
 }
 
 #upvote {
+    margin-left: 5px;
     margin-right: 10px;
 }
 
@@ -106,4 +110,11 @@ img.resize {
 #innhold {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 25px;
+    white-space: pre-line;
+}
+
+#img {
+    object-fit: cover;
+    width: 100%;
+    height: 220px;
 }
