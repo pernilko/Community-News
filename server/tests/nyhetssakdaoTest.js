@@ -234,3 +234,16 @@ test("get author from db", done => {
 
   nyhetssakdao.getForfatter(1, callback);
 }, 30000);
+
+test("get search-result from db", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe("overskrift");
+    done();
+  }
+
+  nyhetssakdao.getSokSak("skr", callback);
+}, 30000);

@@ -19,6 +19,7 @@ export class Login extends Component {
   render() {
     return <>
     <div className="mx-auto w-75">
+    <h2>Logg inn</h2>
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Brukernavn</Form.Label>
@@ -86,6 +87,7 @@ export class Registrer extends Component {
   render() {
     return <>
     <div className="mx-auto w-75">
+    <h2>Registrer bruker</h2>
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Brukernavn</Form.Label>

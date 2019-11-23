@@ -129,6 +129,7 @@ export class Navigation extends Component {
     {kategorier.map(kategori => (
       <Nav.Link href={"/#kategori/"+kategori}>{kategori}</Nav.Link>
     ))}
+    <Button variant="outline-success" href="#/login">Legg til nyhetsartikkel</Button>
     </Nav>
   </Navbar.Collapse>
   <Form inline>

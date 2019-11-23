@@ -22,6 +22,7 @@ export class EditSak extends Component<{ match: { params: { id: number, kategori
       console.log(this.sak);
     return <>
     <div className="mx-auto w-75">
+    <h2>Rediger artikkel</h2>
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
@@ -118,6 +119,7 @@ export class AddSak extends Component {
   render() {
     return <>
     <div className="mx-auto w-75">
+    <h2>Opprett artikkel</h2>
     <Form>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Overskrift</Form.Label>
