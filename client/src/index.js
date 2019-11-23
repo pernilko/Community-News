@@ -14,6 +14,7 @@ import {Alert} from './widgets';
 import './index.css';
 import axios from 'axios';
 
+
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
