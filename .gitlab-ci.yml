@@ -6,7 +6,7 @@ variables:
 test:
   image: node:latest
   services:
-    - mysql:5 # The JS mysql-library does not yet support the newest mysql protocol
+    - mysql:5
   script:
     - npm install -g flow-bin
     - cd server && npm install && npm test && rm node_modules/bcryptjs/src/bower.json && flow check src
