@@ -37,7 +37,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     </Nav.Link>
     </Form.Row>
     <Card className="bg-light text-black" className="mx-auto w-75">
-        <Card.Img src={this.sak.bilde} width="945" height="400"/>
+        <Card.Img id="img_article" src={this.sak.bilde}/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
            <Card.Text id="forfatter">Forfatter: {this.forfatter}</Card.Text>
            <Card.Text id="forfatter">Kategori: {this.props.match.params.kategori}</Card.Text>
@@ -75,7 +75,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
         else {
           return <>
     <Card className="bg-light text-black" className="mx-auto w-75">
-        <Card.Img src={this.sak.bilde} width="945" height="400"/>
+        <Card.Img id="img_article" src={this.sak.bilde}/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
            <Card.Text id="forfatter">Forfatter: {this.forfatter}</Card.Text>
            <Card.Text id="forfatter">Kategori: {this.props.match.params.kategori}</Card.Text>
@@ -114,7 +114,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
       else {
         return <>
     <Card className="bg-light text-black" className="mx-auto w-75">
-        <Card.Img src={this.sak.bilde} width="945" height="400"/>
+        <Card.Img id="img_article" src={this.sak.bilde}/>
            <Card.Title><h1>{this.sak.overskrift}</h1></Card.Title>
            <Card.Text id="forfatter">Forfatter: {this.forfatter}</Card.Text>
            <Card.Text id="forfatter">Kategori: {this.props.match.params.kategori}</Card.Text>
