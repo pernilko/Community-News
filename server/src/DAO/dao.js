@@ -16,6 +16,7 @@ module.exports = class Dao {
         callback(500, { error: "feil ved ved oppkobling" });
       } else {
         //console.log("dao: running sql: " + sql);
+        
         connection.query(sql, params, (err: string, rows: []) => {
           connection.release();
           if (err) {
