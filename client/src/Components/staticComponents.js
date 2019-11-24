@@ -16,7 +16,7 @@ import { createHashHistory } from 'history';
 
 const history = createHashHistory();
 
-let kategorier = ["Nyheter", "Sport", "Kultur", "Annet"];
+let kategorier = ["Nyheter", "Sport", "Kultur", "Sladder"];
 
 export class LiveFeed extends Component {
   saker: Nyhetssak[] = [];

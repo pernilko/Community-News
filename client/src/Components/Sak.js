@@ -67,6 +67,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card id="comment" className="bd-callout bd-callout-info mx-auto w-75">
            <Card.Title id="nick">{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
+           <Card.Text>{kommentar.tidspunkt}</Card.Text>
            <Button variant="danger" onClick={ () => this.del_comment(kommentar.kommId) } style={{width: "150px"}}>Slett kommentar</Button> 
 </Card>
   ))}
@@ -106,6 +107,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card id="comment" className="bd-callout bd-callout-info mx-auto w-75">
            <Card.Title id="nick">{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
+           <Card.Text>{kommentar.tidspunkt}</Card.Text>
 </Card>
   ))}
     </> 
@@ -153,6 +155,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     <Card id="comment" className="bd-callout bd-callout-info mx-auto w-75">
            <Card.Title id="nick">{kommentar.nick}</Card.Title>
            <Card.Text>{kommentar.kommentar}</Card.Text>
+           <Card.Text>{kommentar.tidspunkt}</Card.Text>
 </Card>
   ))}
     </> 
@@ -259,7 +262,6 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
     kommentarService 
       .deleteKommentar(kommId)
       .then(this.mounted())
-      .then(Alert.danger("Kommentar slettet"))
       .catch((error: Error) => Alert.danger(error.message));
     
     let s: any = Sak.instance();

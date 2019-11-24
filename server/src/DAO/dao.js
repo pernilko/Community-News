@@ -15,14 +15,14 @@ module.exports = class Dao {
         console.log("dao: error connecting");
         callback(500, { error: "feil ved ved oppkobling" });
       } else {
-        console.log("dao: running sql: " + sql);
+        //console.log("dao: running sql: " + sql);
         connection.query(sql, params, (err: string, rows: []) => {
           connection.release();
           if (err) {
             console.log(err);
             callback(500, { error: "error querying" });
           } else {
-            console.log("dao: returning rows");
+            //console.log("dao: returning rows");
             callback(200, rows);
           }
         });

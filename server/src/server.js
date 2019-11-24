@@ -64,7 +64,7 @@ app.post("/login", (req: {body: {brukernavn: string, passord: string}}, res) => 
 						if (bcrypt.compareSync(req.body.passord, rows[0].passord)) {
 							console.log("Brukernavn & passsord ok");
 							let token = jwt.sign({ brukernavn: req.body.brukernavn }, privateKey, {
-								expiresIn: 1800
+								expiresIn: 3600
 							});
 							res.json({ jwt: token });
 						} else {
@@ -164,7 +164,7 @@ app.post("/nyhetssaker", (req, res) => {
     });
 });
 
-app.delete("/nyhetssaker/:saksId/", (req, res) => {
+app.delete("/nyhetssaker/:saksId", (req, res) => {
 	console.log("nyhetssaker/: Fikk DELETE-request fra klienten");
     pool.getConnection((err, connection: function) => {
         console.log("Connected to database");
@@ -176,7 +176,7 @@ app.delete("/nyhetssaker/:saksId/", (req, res) => {
 				"DELETE FROM KOMMENTAR WHERE KOMMENTAR.saksId=?",
 				[req.params.saksId],
 				(err, rows) => {
-					//connection.release();
+					connection.release();
 					if (err) {
 						console.log(err);
 						res.json({ error: "error querying" });
@@ -209,7 +209,7 @@ app.put("/nyhetssaker/:saksId/downvote", (req, res) => {
 });
 
 app.get("/livefeed", (req, res) => {
-    console.log("livefeed: Fikk GET-request fra klienten");
+    //console.log("livefeed: Fikk GET-request fra klienten");
     nyhetssakDao.getLivefeed((status, data) => {
         res.status(status);
         res.json(data);

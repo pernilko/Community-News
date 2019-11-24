@@ -12,7 +12,7 @@ import { createHashHistory } from 'history';
 
 const history = createHashHistory();
 
-let kategorier = ["Nyheter", "Sport", "Kultur", "Annet"];
+let kategorier = ["Nyheter", "Sport", "Kultur", "Sladder"];
 
 export class EditSak extends Component<{ match: { params: { id: number, kategori: string } } }> {
   sak: Nyhetssak | any = null;

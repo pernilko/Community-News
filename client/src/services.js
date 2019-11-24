@@ -96,7 +96,6 @@ export class Kommentar {
   nick: string;
   kommentar: string;
   saksId: number;
-  tidspunkt: string;
 }
 
 class KommentarService {

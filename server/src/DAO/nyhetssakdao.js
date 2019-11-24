@@ -21,7 +21,7 @@ module.exports = class NyhetssakDao extends Dao {
 
     getKategori(kategori: string, callback: function) {
         super.query(
-            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=FALSE AND kategori=? ORDER BY rating DESC",
+            "SELECT saksId, overskrift, innhold, tidspunkt, bilde, kategori, viktighet, brukerId, rating FROM NYHETSSAK WHERE viktighet=FALSE AND kategori=? ORDER BY rating DESC LIMIT 20",
             [kategori],
             callback
         );
