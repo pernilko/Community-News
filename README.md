@@ -11,30 +11,12 @@ Jeg har lagd et system for en "Community" nettavis som bruker MySQL og Node.js i
 ```
 git clone https://gitlab.stud.idi.ntnu.no/dilawarm/miniprosjekth19.git
 
-cd miniprosjekth19/server/src
-
-vim config.json
-```
-
-Lim inn innholdet under i config.json. Bytt ut det i ** med din info, og legg også til en nøkkel for generering av tokens for brukersystemet:
-
-```
-{
-    "host": "*host*",
-    
-    "user": "*user*",
-    
-    "password": "*password*",
-    
-    "database": "*database*",
-    
-    "key": "*key*"
-}
+cd miniprosjekth19
 ```
 
 Etter at det har blitt gjort, er systemet klart for å bli kjørt. Skriv følgende i terminalen(e):
 ```
-cd ../server
+cd server
 npm install
 npm start
 ```
@@ -117,7 +99,7 @@ som jeg har implementert utover det oppgaven har spurt om.
 *  For det første har jeg valgt å ikke ha en egen tabell i databasen for kategorier. Grunnen til det er at brukeren ikke kan opprette nye kategorier, og at man unngår en JOIN-operasjon i spørringene når man filtrerer på kategorier.
 *  Har implementert livefeed med WebSocket, slik at newsfeeden faktisk er live. Har brukt socket.io i backend og socket.io-client i frontend for å få til dette.
 *  Oppgaven ga inntrykk av at hvem som helst kunne redigere og slette artikler, så da bestemte jeg meg for å opprette et brukersystem slik at hver sak er tilknyttet en bruker (en bruker kan ha flere saker, men en sak har kun en bruker).
-*  Det er mulig å registrere en bruker med brukernavn og passord. Av sikkerhetsmessige grunner passordene blir kryptert i databasen med (SALT-hashing).
+*  Det er mulig å registrere en bruker med brukernavn og passord. Av sikkerhetsmessige grunner blir passordene kryptert i databasen (SALT-hashing).
 *  Det er mulig for brukeren å logge inn med brukernavn og passord, og får da en token som varer i en time og som legges i x-access-token i header. Token blir signert med brukernavnet.
 *  Man må altså ha en bruker for å kunne legge inn saker, slik at de skal være rediger- og slettbare.
 *  Når brukeren har logget inn, blir brukeren presentert med den vanlige hovedsiden i tillegg til en oversikt over sine egne saker. Også mulighet for å logge ut.
