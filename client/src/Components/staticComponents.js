@@ -103,7 +103,7 @@ export class Navigation extends Component {
   </Navbar.Collapse>
   <Navbar.Collapse className="justify-content-end">
   <Navbar.Text>
-      Signed in as: <a>{this.inn_bruker.brukernavn}</a>
+      Logget inn som: <a>{this.inn_bruker.brukernavn}</a>
     </Navbar.Text>
   <Button id="button" variant="danger" onClick={this.logout}>Logg ut</Button>
   </Navbar.Collapse>

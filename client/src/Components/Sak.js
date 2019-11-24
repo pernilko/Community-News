@@ -30,7 +30,7 @@ export class Sak extends Component<{ match: { params: { id: number, kategori: st
           return <>
     <Form.Row>
     <Nav.Link>
-    <Button variant="danger" onClick={this.delete}>Slett nyhetsartikkel</Button>
+    <Button id="slett" variant="danger" onClick={this.delete}>Slett nyhetsartikkel</Button>
     </Nav.Link>
     <Nav.Link href={"#/rediger/"+this.props.match.params.kategori+"/"+this.props.match.params.id}>
     <Button variant="success">Rediger nyhetsartikkel</Button>
