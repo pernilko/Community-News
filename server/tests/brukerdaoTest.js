@@ -26,6 +26,7 @@ test("get one user from db", done => {
     expect(data[0].brukernavn).toBe("bruker");
     done();
   }
+  
 
   brukerdao.getOne("bruker", callback);
 }, 30000);

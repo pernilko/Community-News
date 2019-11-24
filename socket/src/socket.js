@@ -8,8 +8,6 @@ let socketIo: function = require("socket.io");
 let app: function = express();
 let server: function = app.listen(4001, () => console.log("Listening on port 4001"));
 
-//axios.get('http://localhost:8080/livefeed').then(res => console.log(res.data));
-
 let io: function = socketIo(server);
 
 let interval1: IntervalID;

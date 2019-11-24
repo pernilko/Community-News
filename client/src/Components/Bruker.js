@@ -120,6 +120,7 @@ export class Registrer extends Component {
       Alert.danger("Ugyldig passord");
       return;
     }
+    
 
     brukerService
       .registrer(this.brukernavn, this.passord)

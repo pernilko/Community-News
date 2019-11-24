@@ -2,6 +2,7 @@
 
 // Workaround for buggy transform of uninitialized class properties in react-scripts
 
+
 const path = require('path');
 const fs = require('fs');
 
