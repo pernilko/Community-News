@@ -109,3 +109,4 @@ som jeg har implementert utover det oppgaven har spurt om.
 *  Jeg har også lagt til et ratingsystem for å upvote/downvote saker (negativ rating er mulig).
 *  Sakene blir sortert etter rating på hovesidene og under kategoriene.
 *  Jeg har også implementert en søk-funksjonalitet, slik at man kan søke etter saker. Søkestrengen finner sakene med overskriften slik at søkestrengen er en substring i overskriften.
+hei
