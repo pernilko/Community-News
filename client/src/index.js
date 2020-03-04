@@ -1,37 +1,66 @@
-// @flow
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import {Component} from "react-simplified";
 import ReactDOM from 'react-dom';
-import * as React from 'react';
 import { HashRouter, Route} from 'react-router-dom';
-import {LiveFeed, Navigation} from './Components/staticComponents';
-import {Forside, Sakliste, MineSaker, SokeSaker} from './Components/Views';
-import {EditSak, AddSak} from './Components/Forms';
-import {Login, Registrer} from './Components/Bruker';
-import {Sak} from './Components/Sak';
-import {Alert} from './widgets';
-import './index.css';
+import * as React from "react";
 import axios from 'axios';
 
+export class home extends Component {
+
+  input = "input";
+  output = "output";
+
+  render(){
+      return(
+        <div>
+        <form>
+          <textarea
+          type="text"
+          style={{width: '100%', height: '30vh'}}
+          value={this.input}
+          onChange={(event) => {
+            this.input = event.target.value;;
+          }}
+          />
+          <button
+            type="button"
+            className="btn btn-secondary"
+            style={{width: '100%', height: '5vh'}}
+            onClick={() => this.run()}
+          >Kompiler og kjør</button>
+        </form>
+        <textarea
+        readonly
+        style={{width: '100%', height: '65vh'}}
+        value={this.output}
+        />
+      </div>
+          
+      );
+  }
+
+  run(){
+      console.log(this.input);
+      return axios.post('http://localhost:8080/code',
+      {
+          code: this.input
+      }).then((response) => {
+        let tempA = response.data.data.split('\n');
+        let tempB = "";
+        for(let i = 14; i < tempA.length; i++) {
+          tempB = tempB + tempA[i] + "\n";
+        }
+        this.output = tempB;
+  });
+
+  }
+}
 
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
     <HashRouter>
       <div>
-        <Navigation />
-        <Alert/>
-        <LiveFeed />
-        <Route exact path="/" component={Forside}/>
-        <Route exact path="/kategori/:kategori" component={Sakliste}/>
-        <Route exact path="/kategori/:kategori/:id" component={Sak}/>
-        <Route path="/addNews" component={AddSak}/>
-        <Route exact path="/rediger/:kategori/:id" component={EditSak}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/registrer" component={Registrer}/>
-        <Route exact path="/kategori/MineSaker/:id" component={MineSaker}/>
-        <Route exact path="/søkeSak/:soketekst" component={SokeSaker}/>
+        <Route exact path="/" component={home}/>
       </div>
     </HashRouter>,
     root
